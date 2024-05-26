@@ -23,10 +23,10 @@ export const GoogleGeminiEffect = ({
   return (
     <div className={cn("sticky top-52", className)}>
       <p className="bg-gradient-to-b from-neutral-100 to-neutral-300 bg-clip-text pb-4 text-center text-lg font-normal text-transparent md:text-7xl">
-        {title || `Code generation with AI`}
+        {title ?? `Code generation with AI`}
       </p>
       <p className="mx-auto mt-4 max-w-lg text-center text-xs font-normal text-neutral-400 md:text-xl">
-        {description || `will be available soon`}
+        {description ?? `will be available soon`}
       </p>
 
       <div className="fixed left-5 top-5 flex items-center gap-4">

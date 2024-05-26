@@ -37,7 +37,7 @@ export default function Home() {
   }, [editorType]);
 
   const onChange = React.useCallback<OnChange>((val) => {
-    setValue(val || "");
+    setValue(val ?? "");
   }, []);
 
   if (editorType === "mermaidJS") {

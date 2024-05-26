@@ -2,7 +2,6 @@ import "@/styles/globals.css";
 
 import type { Metadata } from "next";
 import { TRPCReactProvider } from "@/trpc/react";
-import NavBar from "../components/nav/nav";
 import AppContextProvider from "@/providers/providers";
 
 const siteConfig = {

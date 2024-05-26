@@ -35,7 +35,7 @@ export default async function UserAuth() {
           <div className="flex items-center justify-start gap-2 p-2 text-sm">
             <div className="flex flex-col space-y-1 leading-none">
               <p className="font-medium">{session.user.name}</p>
-              <p className="text-muted-foreground w-[200px] truncate text-sm">
+              <p className="w-[200px] truncate text-sm text-muted-foreground">
                 {session.user.email}
               </p>
             </div>

@@ -5,7 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
@@ -16,13 +15,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export default function UserAuth() {
   const { data: session } = useSession();
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  };
+
   if (session) {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger className="focus:outline-none">
           <Avatar className="h-[40px] w-[40px]">
             <AvatarImage
-              src={session.user.image || ""}
+              src={session.user.image ?? ""}
               alt={"User profile photo"}
             />
             <AvatarFallback className="h-full w-full animate-pulse bg-gray-300">
@@ -52,13 +59,7 @@ export default function UserAuth() {
             </div>
           </DropdownMenuItem>
 
-          <DropdownMenuItem
-            onSelect={(event) => {
-              event.preventDefault();
-              signOut();
-            }}
-            className="cursor-pointer"
-          >
+          <DropdownMenuItem onSelect={handleSignOut} className="cursor-pointer">
             <div className="flex items-center gap-3 px-2 py-1">
               <RxExit size={20} />
               <div className="flex items-center">Log out</div>
