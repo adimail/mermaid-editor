@@ -13,7 +13,6 @@ import { RiMenu4Fill } from "react-icons/ri";
 
 export default async function NavBar() {
   const session = await getServerAuthSession();
-  const savedProjects = [null];
 
   return (
     <nav className="fixed flex w-full items-center justify-between bg-gray-800 px-3 py-2 text-white">
@@ -40,24 +39,9 @@ export default async function NavBar() {
             <SheetHeader>
               <SheetTitle>Saved Projects</SheetTitle>
               <SheetDescription>
-                {savedProjects.length === 0 ? (
-                  <p>No projects saved. Saved projects will be visible here.</p>
-                ) : (
-                  "Here are your saved projects. You can view or edit them."
-                )}
+                Here are your saved projects. You can view or edit them.
               </SheetDescription>
             </SheetHeader>
-            <ul>
-              {savedProjects.length === 0 ? (
-                <li>No projects saved. Saved projects will be visible here.</li>
-              ) : (
-                savedProjects.map((project) => (
-                  <ul>
-                    <li>Project 1</li>
-                  </ul>
-                ))
-              )}
-            </ul>
           </SheetContent>
         </Sheet>
 
@@ -102,14 +86,9 @@ export default async function NavBar() {
                   <SheetHeader>
                     <SheetTitle>Saved Projects</SheetTitle>
                     <SheetDescription>
-                      {savedProjects.length === 0 ? (
-                        <p>
-                          No projects saved. Saved projects will be visible
-                          here.
-                        </p>
-                      ) : (
-                        "Here are your saved projects. You can view or edit them."
-                      )}
+                      <p>
+                        No projects saved. Saved projects will be visible here.
+                      </p>
                     </SheetDescription>
                   </SheetHeader>
                   <ul>

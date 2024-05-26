@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { getServerAuthSession } from "@/server/auth";
-import { useSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { FaBell, FaUser, FaUserEdit, FaExternalLinkAlt } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
 import {
   DropdownMenu,
   DropdownMenuContent,

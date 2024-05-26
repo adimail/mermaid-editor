@@ -1,11 +1,11 @@
-import { CreatePost } from "@/components/create-post";
-import { getServerAuthSession } from "@/server/auth";
+// import { CreatePost } from "@/components/create-post";
+// import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 import MermaidEditor from "../components/EditorComponent";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
-  const session = await getServerAuthSession();
+  // const session = await getServerAuthSession();
 
   return (
     // <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#a361ff] to-[#6c71d1] text-white">
@@ -33,21 +33,21 @@ export default async function Home() {
   );
 }
 
-async function CrudShowcase() {
-  const session = await getServerAuthSession();
-  if (!session?.user) return null;
+// async function CrudShowcase() {
+//   const session = await getServerAuthSession();
+//   if (!session?.user) return null;
 
-  const latestPost = await api.post.getLatest();
+//   const latestPost = await api.post.getLatest();
 
-  return (
-    <div className="w-full max-w-xs">
-      {latestPost ? (
-        <p className="truncate">Your most recent post: {latestPost.name}</p>
-      ) : (
-        <p>You have no posts yet.</p>
-      )}
+//   return (
+//     <div className="w-full max-w-xs">
+//       {latestPost ? (
+//         <p className="truncate">Your most recent post: {latestPost.name}</p>
+//       ) : (
+//         <p>You have no posts yet.</p>
+//       )}
 
-      <CreatePost />
-    </div>
-  );
-}
+//       <CreatePost />
+//     </div>
+//   );
+// }
