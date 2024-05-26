@@ -7,10 +7,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import Link from "next/link";
 import { FaUser, FaFolderOpen } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { RiMenu4Fill } from "react-icons/ri";
 
 export default function UserAuth() {
   const { data: session } = useSession();
@@ -76,10 +85,66 @@ export default function UserAuth() {
       onClick={() => signIn("google", { callbackUrl: "/" })}
     >
       <div className="flex justify-center text-center">
-        <div className="rounded-full bg-white px-4 py-1 text-black">
+        <div className="rounded-full bg-white px-5 py-2 text-black">
           <span>Log in</span>
         </div>
       </div>
     </div>
+  );
+}
+
+export function SheetComponent() {
+  return (
+    <Sheet>
+      <SheetTrigger>
+        <RiMenu4Fill size={27} />
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>
+            <div className="flex items-center gap-4">
+              <Link href="/" className="text-2xl font-extrabold tracking-tight">
+                Mermaid <span className="text-[hsl(280,100%,70%)]">Mind</span>
+              </Link>
+            </div>
+          </SheetTitle>
+          <SheetDescription>
+            <div className="flex flex-col items-start justify-start">
+              <ul className="mb-10 mt-10 flex flex-col gap-3 text-left">
+                <li>
+                  <Link href="/generate">Generate with AI</Link>
+                </li>
+                <li>
+                  <Link href="/projects">Saved Projects</Link>
+                </li>
+                <li>
+                  <Link href="https://adimail.github.io/posts/mermaid-js/">
+                    Mermaid JS
+                  </Link>
+                </li>
+              </ul>
+              <h2 className="mt-6 text-xl font-bold">About</h2>
+              <ul className="mb-10 mt-4 flex flex-col gap-3 text-left ">
+                <li>
+                  <Link href="https://adimail.github.io">Developer</Link>
+                </li>
+                <li>
+                  <Link href="https://github.com/adimail/mermaid-editor">
+                    Source code
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/new">What&apos;s New</Link>
+                </li>
+                <li>
+                  <Link href="/new">Coming Soon</Link>
+                </li>
+              </ul>
+              <UserAuth />
+            </div>
+          </SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
   );
 }

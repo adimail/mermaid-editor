@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import EditorType from "@/components/nav/editortypeDropdown";
-import UserAuth from "../auth";
+import UserAuth, { SheetComponent } from "../auth";
 
 const transition = {
   type: "spring",
@@ -31,7 +31,7 @@ export const MenuItem = ({
     <div onMouseEnter={() => setActive(item)} className="relative ">
       <motion.p
         transition={{ duration: 0.3 }}
-        className="cursor-pointer text-white hover:opacity-[0.9]"
+        className="cursor-pointer rounded-full bg-slate-700 px-5 py-2 text-white hover:opacity-[0.9]"
       >
         {item}
       </motion.p>
@@ -84,7 +84,12 @@ export const Menu = ({
       <div className="flex items-center gap-3  md:gap-10">
         <EditorType />
         <div className="hidden gap-4 md:flex">{children}</div>
-        <UserAuth />
+        <div className="hidden md:block">
+          <UserAuth />
+        </div>
+        <div className="block md:hidden">
+          <SheetComponent />
+        </div>
       </div>
     </nav>
   );
@@ -124,15 +129,10 @@ export const ProductItem = ({
 
 export const HoveredLink = ({
   children,
-  ...rest
 }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
   return (
-    <Link
-      {...rest}
-      href={""}
-      className="text-neutral-700 hover:text-black dark:text-neutral-200 "
-    >
+    <div className="text-neutral-700 hover:text-black dark:text-neutral-200 ">
       {children}
-    </Link>
+    </div>
   );
 };

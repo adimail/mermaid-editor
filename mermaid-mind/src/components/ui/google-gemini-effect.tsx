@@ -26,7 +26,7 @@ export const GoogleGeminiEffect = ({
         {title ?? `Code generation with AI`}
       </p>
       <p className="mx-auto mt-4 max-w-lg text-center text-xs font-normal text-neutral-400 md:text-xl">
-        {description ?? `will be available soon`}
+        {description ?? `will be available soon on Mermaid Mind`}
       </p>
 
       <div className="fixed left-5 top-5 flex items-center gap-4">

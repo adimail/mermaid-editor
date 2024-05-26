@@ -8,6 +8,7 @@ import {
   ProductItem,
 } from "@/components/ui/nav-bar";
 import { cn } from "@/utils/cn";
+import Link from "next/link";
 
 export function NavBar() {
   return (
@@ -31,7 +32,7 @@ function NavbarComponent({ className }: { className?: string }) {
               description="Use natural language to generate mermaid diagrams"
             />
             <ProductItem
-              title="markdown Content"
+              title="Markdown"
               href="/generate"
               src="/markdown.avif"
               description="Generate markdown content using natural language"
@@ -40,16 +41,27 @@ function NavbarComponent({ className }: { className?: string }) {
         </MenuItem>
         <MenuItem setActive={setActive} active={active} item="About">
           <div className="flex flex-col space-y-4 text-sm">
-            <HoveredLink href="https://adimail.github.io">
-              Developer
+            <HoveredLink>
+              <Link href="https://adimail.github.io">Developer</Link>
             </HoveredLink>
-            <HoveredLink href="https://github.com/adimail/mermaid-editor">
-              Source Code
+            <HoveredLink>
+              <Link href="https://adimail.github.io/posts/mermaid-js/">
+                Mermaid JS
+              </Link>
             </HoveredLink>
-            <HoveredLink href="https://github.com/adimail/mermaid-editor/blob/main/README.md">
-              Dependencies
+            <HoveredLink>
+              <Link href="https://github.com/adimail/mermaid-editor">
+                Source Code
+              </Link>
             </HoveredLink>
-            <HoveredLink href="/new">Comming Soon...</HoveredLink>
+            <HoveredLink>
+              <Link href="https://github.com/adimail/mermaid-editor/blob/main/README.md">
+                Dependencies
+              </Link>
+            </HoveredLink>
+            <HoveredLink>
+              <Link href={"/new"}>Comming Soon...</Link>
+            </HoveredLink>
           </div>
         </MenuItem>
       </Menu>
