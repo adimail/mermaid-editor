@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 
-import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { TRPCReactProvider } from "@/trpc/react";
 import NavBar from "../components/nav/nav";
@@ -47,10 +46,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="bg-slate-900">
+    <html lang="en">
+      <body>
         <AppContextProvider>
-          <NavBar />
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </AppContextProvider>
       </body>

@@ -1,9 +1,14 @@
 import { EditorTypeProvider } from "./editor";
+import SessionProvider from "./sessionprovider";
 
 export default async function AppContextProvider({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <EditorTypeProvider>{children}</EditorTypeProvider>;
+  return (
+    <SessionProvider>
+      <EditorTypeProvider>{children}</EditorTypeProvider>
+    </SessionProvider>
+  );
 }

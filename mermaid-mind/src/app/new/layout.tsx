@@ -9,7 +9,7 @@ const siteConfig = {
   name: "Mermaid Mind AI",
   description:
     "Create flowcharts, sequence diagrams and more with mermaid js and AI",
-  url: "https://localhost:3000/generate",
+  url: "https://localhost:3000/new",
 };
 
 export const metadata: Metadata = {

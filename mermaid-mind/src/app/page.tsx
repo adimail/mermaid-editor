@@ -2,15 +2,23 @@
 // import { getServerAuthSession } from "@/server/auth";
 import { api } from "@/trpc/server";
 import MermaidEditor from "../components/EditorComponent";
+import { NavBar } from "@/components/nav/nav";
+import Explore from "@/components/explore";
+import ChatBar from "@/components/chat";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
   // const session = await getServerAuthSession();
 
   return (
-    // <main className="flex min-h-screen flex-col items-center bg-gradient-to-b from-[#a361ff] to-[#6c71d1] text-white">
-    <main className="flex min-h-screen flex-col items-center text-white">
+    <main className="mb-20 flex min-h-screen flex-col text-white">
+      <NavBar />
+      <ChatBar />
       <MermaidEditor />
+      <h1 className="font mt-20 px-6 text-4xl font-semibold text-gray-600">
+        Explore
+      </h1>
+      <Explore />
       <p className="text-sm text-white">
         {hello ? hello.greeting : "Loading tRPC query..."}
       </p>

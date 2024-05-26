@@ -1,12 +1,35 @@
-export default function CodeWithAI() {
+"use client";
+import { useScroll, useTransform } from "framer-motion";
+import React from "react";
+import { GoogleGeminiEffect } from "@/components/ui/google-gemini-effect";
+
+export default function GoogleGeminiEffectDemo() {
+  const ref = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"],
+  });
+
+  const pathLengthFirst = useTransform(scrollYProgress, [0, 0.8], [0.2, 1.2]);
+  const pathLengthSecond = useTransform(scrollYProgress, [0, 0.8], [0.15, 1.2]);
+  const pathLengthThird = useTransform(scrollYProgress, [0, 0.8], [0.1, 1.2]);
+  const pathLengthFourth = useTransform(scrollYProgress, [0, 0.8], [0.05, 1.2]);
+  const pathLengthFifth = useTransform(scrollYProgress, [0, 0.8], [0, 1.2]);
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4">
-      <div className="max-w-md space-y-4 text-center">
-        <h1 className="text-5xl font-bold tracking-tight text-white">
-          Code generation with AI
-        </h1>
-        <p className="text-lg text-gray-500">will be available soon</p>
-      </div>
+    <div
+      className="relative h-[400vh] w-full overflow-clip rounded-md bg-black pt-40 dark:border dark:border-white/[0.1]"
+      ref={ref}
+    >
+      <GoogleGeminiEffect
+        pathLengths={[
+          pathLengthFirst,
+          pathLengthSecond,
+          pathLengthThird,
+          pathLengthFourth,
+          pathLengthFifth,
+        ]}
+      />
     </div>
   );
 }

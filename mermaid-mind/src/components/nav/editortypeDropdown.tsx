@@ -1,28 +1,33 @@
 "use client";
 
 import { useEditorType } from "@/providers/editor";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import React from "react";
+import { FaMarkdown } from "react-icons/fa";
+import { SiMermaid } from "react-icons/si";
 
 export default function EditorType() {
   const { editorType, setEditorType } = useEditorType();
 
-  const handleEditorTypeChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setEditorType(event.target.value);
+  const handleEditorTypeChange = (value: string) => {
+    setEditorType(value);
   };
 
   return (
-    <div className="hidden text-black md:block">
-      <select
-        name="editorType"
+    <div>
+      <ToggleGroup
+        type="single"
+        className="h-[5px]"
         value={editorType}
-        onChange={handleEditorTypeChange}
-        className="rind-0 rounded-sm px-2 py-1 outline-none"
+        onValueChange={handleEditorTypeChange}
       >
-        <option value="mermaidJS">Mermaid JS</option>
-        <option value="markdown">Markdown</option>
-      </select>
+        <ToggleGroupItem value="mermaidJS">
+          <SiMermaid size={20} />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="markdown">
+          <FaMarkdown size={20} />
+        </ToggleGroupItem>
+      </ToggleGroup>
     </div>
   );
 }

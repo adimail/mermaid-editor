@@ -1,16 +1,28 @@
 "use client";
 
+import dynamic from "next/dynamic";
+import React from "react";
+import type { ContextStore } from "@uiw/react-md-editor";
+import { useEditorType } from "@/providers/editor";
 import { useState, useEffect } from "react";
+import { markdown, mermaid } from "./example";
 import Draggable from "react-draggable";
 import Mermaid from "./Mermaid";
-import { markdown, mermaid } from "./example";
-import { useEditorType } from "@/providers/editor";
 import MDEditor from "@uiw/react-md-editor";
 
-const MermaidEditor = () => {
-  const [EditorCode, setEditorCode] = useState(mermaid);
-  const [isClient, setIsClient] = useState(false);
+const MDEditorMD = dynamic(() => import("@uiw/react-md-editor"), {
+  ssr: false,
+});
+type OnChange = (
+  value?: string,
+  event?: React.ChangeEvent<HTMLTextAreaElement>,
+  state?: ContextStore,
+) => void;
+
+export default function Home() {
+  const [value, setValue] = React.useState(mermaid);
   const { editorType } = useEditorType();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -18,35 +30,32 @@ const MermaidEditor = () => {
 
   useEffect(() => {
     if (editorType == "mermaidJS") {
-      setEditorCode(mermaid);
+      setValue(mermaid);
     } else {
-      setEditorCode(markdown);
+      setValue(markdown);
     }
   }, [editorType]);
 
-  const ChangeEditorCode = () => {
-    setEditorCode(EditorCode);
-  };
+  const onChange = React.useCallback<OnChange>((val) => {
+    setValue(val || "");
+  }, []);
 
   if (editorType === "mermaidJS") {
     return (
-      <div className="mt-10 flex h-auto w-full flex-col px-3 text-black md:h-[600px] md:flex-row">
+      <div className="flex h-auto w-full flex-col px-3 text-black md:h-[600px] md:flex-row">
         <div className="flex h-[300px] flex-col p-4 md:h-full md:w-1/2">
           <textarea
-            className="font-code w-full flex-grow resize-none border"
-            value={EditorCode}
-            onChange={(e) => setEditorCode(e.target.value)}
+            className="w-full flex-grow resize-none border font-code text-sm"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
             placeholder="Enter Mermaid.js code"
           />
           <div className="mt-2 flex w-full space-x-2 overflow-hidden rounded-md bg-slate-600 px-3 py-2">
-            <button
-              onClick={ChangeEditorCode}
-              className="bg-green-500 px-4 py-1 text-white"
-            >
-              Refresh Diagram
+            <button className="bg-green-500 px-4 py-1 text-white">
+              Refresh
             </button>
             <button className="bg-blue-500 px-4 py-1 text-white">
-              Download Diagram
+              Download
             </button>
           </div>
         </div>
@@ -55,12 +64,12 @@ const MermaidEditor = () => {
             {editorType === "mermaidJS" ? (
               <Draggable>
                 <div className="h-full cursor-pointer active:cursor-move">
-                  {isClient && <Mermaid chart={EditorCode} />}
+                  {isClient && <Mermaid chart={value} />}
                 </div>
               </Draggable>
             ) : (
               <MDEditor.Markdown
-                source={EditorCode}
+                source={value}
                 style={{ whiteSpace: "pre-wrap" }}
               />
             )}
@@ -68,16 +77,11 @@ const MermaidEditor = () => {
         </div>
       </div>
     );
-  } else
-    return (
-      <div className="mt-16">
-        <MDEditor
-          value={EditorCode}
-          onChange={ChangeEditorCode}
-          className="h-screen"
-        />
-      </div>
-    );
-};
+  }
 
-export default MermaidEditor;
+  return (
+    <main className="container" data-color-mode="light">
+      <MDEditorMD style={{ width: "100%" }} value={value} onChange={onChange} />
+    </main>
+  );
+}

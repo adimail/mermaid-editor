@@ -76,3 +76,7 @@
       @apply bg-background text-foreground;
     }
   }
+
+body {
+  background-color: #7777771e;
+}
