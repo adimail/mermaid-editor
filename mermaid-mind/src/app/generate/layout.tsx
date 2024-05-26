@@ -3,14 +3,14 @@ import "@/styles/globals.css";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { TRPCReactProvider } from "@/trpc/react";
-import NavBar from "../components/nav/nav";
+import NavBar from "@/components/nav/nav";
 import AppContextProvider from "@/providers/providers";
 
 const siteConfig = {
-  name: "Mermaid Mind",
+  name: "Mermaid Mind AI",
   description:
     "Create flowcharts, sequence diagrams and more with mermaid js and AI",
-  url: "https://localhost:3000",
+  url: "https://localhost:3000/generate",
 };
 
 export const metadata: Metadata = {

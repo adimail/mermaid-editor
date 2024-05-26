@@ -1,2 +1,3 @@
 # mermaid-editor
-Free application to download mermaid diagrams
+
+Create flowcharts, sequence diagrams and more with mermaid js and AI
