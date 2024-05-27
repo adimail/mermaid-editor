@@ -82,7 +82,7 @@ export const Menu = ({
       </div>
 
       <div className="flex items-center gap-3  md:gap-10">
-        <EditorType />
+        {/* <EditorType /> */}
         <div className="hidden gap-4 md:flex">{children}</div>
         <div className="hidden md:block">
           <UserAuth />

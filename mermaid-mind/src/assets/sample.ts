@@ -15,19 +15,19 @@ export const samples: Record<string, string> = {
         I --> J[Use Mermaid Mind AI]
     end
 
-    E --> O[Enter/Edit Markdown or Mermaid Code]
-    O --> P[Preview Changes]
+    E --> P[Preview Changes]
     P --> Q[Save Changes]
 
-    G --> R[Select Chart Format PNG/SVG or Markdown .md]
+    G --> R[Select Chart Format PNG/SVG]
     R --> S[Download File]
 
     H --> V[Select Project]
-    V --> W[View Charts/Markdown in Project]
+    V --> W[View Charts in Project]
 
-    J --> X[Get AI-Generated Mermaid Code/Markdown]
-    X --> Y[Edit AI-Generated Code]
-    Y --> Z[Save AI-Generated Content]`,
+    J --> X[Get AI-Generated Mermaid Code]
+    X --> Y[Edit Code]
+    Y --> Z[Save Content]
+  `,
   Sequence: `sequenceDiagram
     User->>+MermaidMind: Request AI-Generated Mermaid Diagram
     MermaidMind-->>+User: Provides Mermaid Code

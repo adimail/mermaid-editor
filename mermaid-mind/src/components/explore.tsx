@@ -1,46 +1,32 @@
 const features = [
   {
-    title: "AI",
-    description:
-      "Use mermaid mind to generate Mermaid diagrams and markdown content from natural language.",
+    title: "Mermaid AI",
+    description: "Use mermaid mind to generate diagrams from natural language.",
   },
   {
     title: "Interact with Images",
     description:
-      "Create charts by uploading images of your project/topic and let AI do the work for you",
+      "Give image to Mermaid AI to generate charts for respective project.",
   },
   {
     title: "Chat History",
-    description: "Make a conversation with Mermaid Mind",
-  },
-  {
-    title: "Generate README Files",
-    description:
-      "Create a feature to generate README files from chat interactions.",
+    description: "Make a conversation with Mermaid Mind.",
   },
   {
     title: "Save Projects",
-    description: "Sign in with google to save your projects",
+    description: "Sign in with google to save your projects.",
   },
   {
     title: "Pre-built Templates",
     description: "Develop a library of pre-built diagram templates.",
   },
   {
-    title: "Export Options",
-    description: "Provide export options to various formats (PNG, SVG, PDF).",
+    title: "Export Diagrams",
+    description: "Save your diagrams in PNG and SVG format.",
   },
   {
     title: "Diagram Editor",
-    description: "Build an intuitive and user-friendly diagram editor.",
-  },
-  {
-    title: "Markdown Editor",
-    description: "Markdown editor for documentation.",
-  },
-  {
-    title: "Download Diagrams",
-    description: "Download Mermaid diagrams in multiple formats (comming soon)",
+    description: "User-friendly mermaid diagram editor.",
   },
   {
     title: "Pan and Zoom",

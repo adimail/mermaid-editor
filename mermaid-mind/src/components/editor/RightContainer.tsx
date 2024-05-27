@@ -12,17 +12,12 @@ import {
 } from "@mui/material";
 
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
-import DataObjectRoundedIcon from "@mui/icons-material/DataObjectRounded";
 import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
 import { IoMdMove } from "react-icons/io";
-import {
-  downloadImgAsPng,
-  downloadImgAsSvg,
-  downloadJson,
-} from "@/utils/utils";
+import { downloadImgAsPng, downloadImgAsSvg } from "@/utils/utils";
 import { useState } from "react";
-import { useStore, getJsonData } from "@/store";
+import { useStore } from "@/store";
 
 const RightContainer = () => {
   const panZoom = useStore.use.panZoom();
@@ -78,9 +73,6 @@ const ExportMenu = () => {
   const onExport = async (type: string) => {
     try {
       switch (type) {
-        case "json":
-          await downloadJson(getJsonData());
-          break;
         case "png":
           await downloadImgAsPng();
           break;
@@ -107,12 +99,6 @@ const ExportMenu = () => {
         Export
       </Button>
       <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)}>
-        <MenuItem onClick={() => onExport("json")}>
-          <ListItemIcon>
-            <DataObjectRoundedIcon />
-          </ListItemIcon>
-          <ListItemText>JSON</ListItemText>
-        </MenuItem>
         <MenuItem onClick={() => onExport("png")}>
           <ListItemIcon>
             <ImageOutlinedIcon />
