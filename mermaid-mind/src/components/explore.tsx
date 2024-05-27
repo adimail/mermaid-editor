@@ -5,6 +5,11 @@ const features = [
       "Use mermaid mind to generate Mermaid diagrams and markdown content from natural language.",
   },
   {
+    title: "Interact with Images",
+    description:
+      "Create charts by uploading images of your project/topic and let AI do the work for you",
+  },
+  {
     title: "Chat History",
     description: "Make a conversation with Mermaid Mind",
   },
