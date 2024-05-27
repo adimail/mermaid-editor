@@ -134,9 +134,6 @@ export function SheetComponent() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/new">What&apos;s New</Link>
-                </li>
-                <li>
                   <Link href="/new">Coming Soon</Link>
                 </li>
               </ul>

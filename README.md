@@ -2,23 +2,20 @@
 
 Create flowcharts, sequence diagrams, and more with Mermaid.js and AI. This project features an AI chatbot that generates Mermaid diagrams and markdown readmes.
 
-## Roadmap
+## To Do
 
 - [ ] Integrate Mermaid.js for diagram creation
+- [ ] Integrate MongoDB to save user data
 - [ ] Build a user-friendly diagram editor
 - [x] Implement a markdown editor
+- [x] Generate markdown and mermaid diagrams from images
 - [ ] Enable download functionality for Mermaid diagrams
 - [ ] Add pan and zoom features for diagrams
 - [x] Test gemini to generate charts
 - [ ] Integrate a LLM to generate Mermaid diagrams from natural language
 - [ ] Develop a chat history and conversation feature
-- [ ] Create a feature to generate README files from chat interactions
-- [ ] Optimize the performance of the editor for large diagrams
 - [x] Implement authentication and user management
-- [ ] Add collaboration features for real-time diagram editing
-- [ ] Develop a library of pre-built diagram templates
 - [ ] Provide export options to various formats (PNG, SVG, PDF)
-- [ ] Include unit and integration tests for all features
 
 Stay tuned for more updates and features!
 
