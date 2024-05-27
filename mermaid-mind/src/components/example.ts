@@ -14,27 +14,25 @@ export const mermaid = `graph TD
         I --> J[Use Mermaid Mind AI]
     end
 
-    E --> O[Enter/Edit Markdown or Mermaid Code]
-    O --> P[Preview Changes]
+    E --> P[Preview Changes]
     P --> Q[Save Changes]
 
-    G --> R[Select Chart Format PNG/SVG or Markdown .md]
+    G --> R[Select Chart Format PNG/SVG]
     R --> S[Download File]
 
     H --> V[Select Project]
-    V --> W[View Charts/Markdown in Project]
+    V --> W[View Charts in Project]
 
-    J --> X[Get AI-Generated Mermaid Code/Markdown]
-    X --> Y[Edit AI-Generated Code]
-    Y --> Z[Save AI-Generated Content]
-`;
+    J --> X[Get AI-Generated Mermaid Code]
+    X --> Y[Edit Code]
+    Y --> Z[Save Content]`;
 
 export const markdown = `# Welcome to Mermaid Mind
 
 ## Features
 
 ### Dashboard
-- **Edit Markdown/Mermaid Files**: Modify and preview your markdown or mermaid diagram code.
+- **Edit Mermaid Files**: Modify and preview your markdown or mermaid diagram code.
 - **Download Chart/Markdown**: Export your diagrams as PNG/SVG or markdown files.
 - **View Saved Projects**: Access your previously saved projects and their associated charts or markdown files.
 
@@ -65,7 +63,7 @@ export const markdown = `# Welcome to Mermaid Mind
 ### Creating a Mermaid Diagram
 
 1. Navigate to the **Dashboard**.
-2. Click on **Edit Markdown/Mermaid Files**.
+2. Click on **Edit Mermaid Files**.
 3. Enter your mermaid code:
 
 4. Click on **Preview Changes** to see your diagram.
