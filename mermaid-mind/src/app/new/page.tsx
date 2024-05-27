@@ -25,6 +25,7 @@ export default function Projects() {
           <li>Markdown live editor</li>
           <li>Live collabration on projects</li>
           <li>Save projects to cloud</li>
+          <li>Generate charts and markdown from images</li>
         </ul>
       </div>
     </AuroraBackground>

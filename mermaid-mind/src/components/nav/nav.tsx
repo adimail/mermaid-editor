@@ -37,6 +37,12 @@ function NavbarComponent({ className }: { className?: string }) {
               src="/markdown.avif"
               description="Generate markdown content using natural language"
             />
+            <ProductItem
+              title="Image to chart"
+              href="/generate"
+              src="/image-upload.avif"
+              description="Upload images and generate the charts from the images"
+            />
           </div>
         </MenuItem>
         <MenuItem setActive={setActive} active={active} item="About">
