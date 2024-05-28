@@ -85,23 +85,23 @@ export default function Creations() {
               ))}
           </AnimatePresence>
         </div>
-        {isMobile && visibleItems < creations.length ? (
+        {isMobile && (
           <div className="mt-6 flex justify-center">
-            <button
-              onClick={loadMoreItems}
-              className="rounded-full bg-blue-600 px-5 py-3 text-white hover:bg-blue-700"
-            >
-              Load More Examples
-            </button>
-          </div>
-        ) : (
-          <div className="mt-6 flex justify-center">
-            <button
-              onClick={() => setVisibleItems(4)}
-              className="rounded-full bg-slate-600 px-5 py-3 text-white hover:bg-slate-700"
-            >
-              Hide Examples
-            </button>
+            {visibleItems < creations.length ? (
+              <button
+                onClick={loadMoreItems}
+                className="rounded-full bg-blue-600 px-5 py-3 text-white hover:bg-blue-700"
+              >
+                Load More Examples
+              </button>
+            ) : (
+              <button
+                onClick={() => setVisibleItems(4)}
+                className="rounded-full bg-slate-600 px-5 py-3 text-white hover:bg-slate-700"
+              >
+                Hide Examples
+              </button>
+            )}
           </div>
         )}
       </div>
