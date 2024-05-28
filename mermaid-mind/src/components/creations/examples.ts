@@ -177,6 +177,25 @@ style BoiledWater, RemovedTea, MilkDecision fill:#fff,stroke:#f66,stroke-width:2
         E -->|Softmax| F[Output Probabilities];
     end
 `,
+  devops: `graph TD;
+    subgraph Development
+        A[Developers] -->|Code| B[Version Control];
+        B -->|Commits| C[Source Code Management];
+    end
+    subgraph Testing
+        C -->|Triggers| D[Automated Testing];
+        D -->|Reports| E[Test Results];
+    end
+    subgraph Deployment
+        E -->|Triggers| F[Continuous Integration];
+        F -->|Builds| G[Artifacts];
+        G -->|Deploys| H[Testing / Staging];
+    end
+    subgraph Monitoring
+        H -->|Monitors| I[Continuous Monitoring];
+        I -->|Feedback| A;
+    end
+`,
 };
 
 export const creations = [
@@ -256,5 +275,12 @@ export const creations = [
     code: "transformer",
     imageSrc:
       "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/transformer.png",
+  },
+  {
+    id: 11,
+    name: "DevOps",
+    code: "devops",
+    imageSrc:
+      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/devops.png",
   },
 ];

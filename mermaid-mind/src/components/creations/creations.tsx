@@ -19,7 +19,7 @@ export default function Creations() {
   }
 
   return (
-    <section className="w-full py-5 ">
+    <section className="mt-5 w-full py-5">
       <div className="container grid gap-6 px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">

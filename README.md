@@ -24,3 +24,5 @@ Stay tuned for more updates and features!
 
 ![Mermaid V1 Demo](/assets/mermaidmind.jpeg)
 ![Mermaid V1 Demo](/assets/mermaidmind2.jpeg)
+![Mermaid V1 Demo](/assets/mermaidmind3.jpeg)
+![Mermaid V1 Demo](/assets/mermaidmind4.jpeg)
