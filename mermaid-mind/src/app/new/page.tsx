@@ -26,6 +26,7 @@ export default function Projects() {
           <li>Live collabration on projects</li>
           <li>Save projects to cloud</li>
           <li>Generate charts and markdown from images</li>
+          <li>High quality Image download</li>
         </ul>
       </div>
     </AuroraBackground>

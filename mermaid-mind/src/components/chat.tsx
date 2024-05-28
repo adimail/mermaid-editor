@@ -22,11 +22,13 @@ export default function ChatBar() {
   const MaxLength = 2500;
 
   async function SendUserQuery() {
-    setResponse("Generating the mermaid diagram you requested...");
-    const apiResponse = await runChat(message);
-    setResponse(apiResponse);
-    setMessage("");
-    setImage(null);
+    if (message.length > 10) {
+      setResponse("Generating the mermaid diagram you requested...");
+      const apiResponse = await runChat(message);
+      setResponse(apiResponse);
+      setMessage("");
+      setImage(null);
+    }
   }
 
   useEffect(() => {
@@ -45,6 +47,15 @@ export default function ChatBar() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const HandleFocus = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
+    setShowLength(true);
   };
 
   const handleImageRemove = () => {
@@ -86,7 +97,7 @@ export default function ChatBar() {
                 className="w-full resize-none border-none bg-gray-200 px-4 py-3 text-base text-gray-900 ring-0 focus:outline-none focus:ring-0 dark:bg-gray-800 dark:text-gray-50"
                 placeholder="Ask mermaid mind..."
                 rows={1}
-                onFocus={() => setShowLength(true)}
+                onFocus={HandleFocus}
                 onBlur={() => setShowLength(false)}
                 value={message}
                 onChange={handleMessageChange}

@@ -6,6 +6,7 @@ import { NavBar } from "@/components/nav/nav";
 import Explore from "@/components/explore";
 import ChatBar from "@/components/chat";
 import Creations from "@/components/creations/creations";
+import Guide from "@/components/guide";
 
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
@@ -22,6 +23,8 @@ export default async function Home() {
       <Creations />
 
       <Explore />
+
+      <Guide />
 
       <p className="text-sm text-white">
         {hello ? hello.greeting : "Loading tRPC query..."}

@@ -55,10 +55,10 @@ async function runChat(prompt: string) {
   - Double-check the Mermaid syntax for errors and parenthesis in title name.
 
   While creating the diagrams, make sure of following things:
-  - Only provide the mermaid code with no empty.
   - Do not use parenthesis for titles, they give syntax errors.
   - Generate code with no syntax errors.
   - Do not include the triple tics, I am passing the code to a mermaid compiler NOT markdown, so I dont need triple tics.
+  - Just give plain mermaid code without backtics and dont use () parenthesis
   - We are creating flowcharts to explain processes, so please add proper steps and instructions
 
   Here is the user query:

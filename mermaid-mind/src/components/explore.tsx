@@ -36,14 +36,26 @@ const features = [
     title: "Pan and Zoom",
     description: "pan and zoom features for better diagram navigation.",
   },
+  {
+    title: "Change Themes",
+    description:
+      "Change your diagram theme from the config panel on the editor",
+  },
 ];
 
 export default function Explore() {
   return (
     <>
-      <h1 className="font mt-20 px-6 text-4xl font-semibold text-gray-600">
-        Explore
-      </h1>
+      <div className="flex flex-col items-center justify-center space-y-4 text-center">
+        <div className="mt-20 space-y-2">
+          <h2 className="text-3xl font-bold tracking-tighter text-gray-800 sm:text-4xl md:text-5xl">
+            Explore
+          </h2>
+          <p className="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            What can you do with Mermaid Mind
+          </p>
+        </div>
+      </div>
       <section className="grid grid-cols-1 gap-6 px-4 py-3 sm:grid-cols-2 md:grid-cols-3 md:gap-8 md:px-6 lg:grid-cols-4">
         {features.map((feature, index) => (
           <div
