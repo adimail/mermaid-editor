@@ -1,33 +1,27 @@
 export const samples: Record<string, string> = {
-  Flow: `graph TD
-    A[Start] --> B[Enter Site]
-    B --> C[Dashboard]
+  Flow: `flowchart TD
+    A[User Enters Mermaid Mind] --> B{Enter workspace}
     
-    subgraph User
-        C --> E[Edit Markdown/Mermaid Files]
-        C --> G[Download Chart/Markdown]
-        C --> H[View Saved Projects]
+    B --> C[Write Own Code]
+    B --> D[Use AI to Generate Charts]
+    
+    C --> E[Edit Code]
+    C --> F[Export Mermaid Diagrams]
+    
+    D --> G[Enter Query]
+    D --> H[Copy Code]
+    D --> I[Directly Import to Workspace]
+
+    subgraph Using AI
+        G --> H
+        G --> I
     end
     
-    B --> I[Sign Up/Login]
-    
-    subgraph Registered User
-        I --> J[Use Mermaid Mind AI]
+    subgraph Using Editor
+        C --> E
+        E --> F
     end
-
-    E --> P[Preview Changes]
-    P --> Q[Save Changes]
-
-    G --> R[Select Chart Format PNG/SVG]
-    R --> S[Download File]
-
-    H --> V[Select Project]
-    V --> W[View Charts in Project]
-
-    J --> X[Get AI-Generated Mermaid Code]
-    X --> Y[Edit Code]
-    Y --> Z[Save Content]
-  `,
+    `,
   Sequence: `sequenceDiagram
     User->>+MermaidMind: Request AI-Generated Mermaid Diagram
     MermaidMind-->>+User: Provides Mermaid Code

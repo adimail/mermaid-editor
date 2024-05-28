@@ -37,34 +37,35 @@ interface Action {
 export const useStateStore = create<State & Action>()(
   persist(
     (set) => ({
-      code: `graph TD
-    A[Start] --> B[Enter Site]
-    B --> C[Dashboard]
-    
-    subgraph User
-        C --> E[Edit Markdown/Mermaid Files]
-        C --> G[Download Chart/Markdown]
-        C --> H[View Saved Projects]
+      code: `flowchart TD
+    %% Entry point
+    A[User Enters]
+
+    %% Main options
+    A ===> B{{Write their own code}}
+    A ===> C{{Edit existing code}}
+    A ===> D{{Export Mermaid diagrams}}
+    A ===> E{{Use AI to generate charts}}
+
+    %% AI Usage Group
+    subgraph AI_Usage [Using AI to Generate Charts]
+        E1[Enter query] ==> E2[Copy the generated code]
+        E2 ==> E3[Directly import in workspace]
     end
-    
-    B --> I[Sign Up/Login]
-    
-    subgraph Registered User
-        I --> J[Use Mermaid Mind AI]
-    end
+    E ===> AI_Usage
 
-    E --> P[Preview Changes]
-    P --> Q[Save Changes]
+    %% Connections for editing and exporting
+    B ===> F{{User Editor}}
+    C ===> F
+    F ==> G[Save Changes]
+    F ==> H[Preview Diagram]
+    G ==> D
+    H ==> D
 
-    G --> R[Select Chart Format PNG/SVG]
-    R --> S[Download File]
-
-    H --> V[Select Project]
-    V --> W[View Charts in Project]
-
-    J --> X[Get AI-Generated Mermaid Code]
-    X --> Y[Edit Code]
-    Y --> Z[Save Content]`,
+    %% Connections for AI to workspace
+    E1 ===> I[Process query with AI]
+    I ==> E2
+`,
       config: formatJSON({
         theme: "default",
       }),
