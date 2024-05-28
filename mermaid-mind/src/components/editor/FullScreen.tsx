@@ -1,14 +1,13 @@
 import { Box, Dialog, IconButton, Slide } from "@mui/material";
-import { TransitionProps } from "@mui/material/transitions";
+import type { TransitionProps } from "@mui/material/transitions";
 import {
-  ReactElement,
   forwardRef,
-  Ref,
   useState,
   useRef,
   useEffect,
+  type ReactElement,
+  type Ref,
 } from "react";
-import FullscreenRoundedIcon from "@mui/icons-material/FullscreenRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useStore } from "@/store";
 import { MdFullscreen } from "react-icons/md";
@@ -18,6 +17,8 @@ const Transition = forwardRef(
     return <Slide direction="up" ref={ref} {...props} />;
   },
 );
+
+Transition.displayName = "Transition";
 
 const FullScreen = () => {
   const [open, setOpen] = useState(false);
@@ -35,10 +36,11 @@ const FullScreen = () => {
       }
     });
   }, [svg, open]);
+
   return (
     <>
       <MdFullscreen
-        className=" cursor-pointer"
+        className="cursor-pointer"
         size={32}
         onClick={() => setOpen(true)}
       />
