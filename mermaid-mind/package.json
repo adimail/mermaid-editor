@@ -13,6 +13,7 @@
     "@emotion/react": "11.11.3",
     "@emotion/styled": "11.11.0",
     "@fontsource/roboto": "5.0.8",
+    "@google/generative-ai": "^0.11.4",
     "@monaco-editor/react": "4.6.0",
     "@mui/icons-material": "5.15.10",
     "@mui/material": "5.15.10",
