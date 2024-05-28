@@ -13,12 +13,13 @@ export default async function Home() {
   return (
     <main className="mb-20 flex min-h-screen flex-col text-white">
       <NavBar />
+
       <ChatBar />
+
       <MermaidEditor />
-      <h1 className="font mt-20 px-6 text-4xl font-semibold text-gray-600">
-        Explore
-      </h1>
+
       <Explore />
+
       <p className="text-sm text-white">
         {hello ? hello.greeting : "Loading tRPC query..."}
       </p>

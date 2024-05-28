@@ -130,3 +130,4 @@ dist
 .pnp.*
 
 *.ipynb_checkpoints
+*.DS_Store
