@@ -10,6 +10,8 @@ import { IoCopySharp } from "react-icons/io5";
 import { motion } from "framer-motion";
 import { IoMdCodeDownload } from "react-icons/io";
 import { useStore } from "@/store";
+import { IoCloseSharp } from "react-icons/io5";
+import runChat from "@/gemini/config";
 
 export default function ChatBar() {
   const [message, setMessage] = useState("");
@@ -19,9 +21,12 @@ export default function ChatBar() {
   const [showLength, setShowLength] = useState(false);
   const MaxLength = 2500;
 
-  function SendUserQuery() {
-    setResponse(message);
+  async function SendUserQuery() {
+    setResponse("Generating the mermaid diagram you requested...");
+    const apiResponse = await runChat(message);
+    setResponse(apiResponse);
     setMessage("");
+    setImage(null);
   }
 
   useEffect(() => {
@@ -108,7 +113,7 @@ export default function ChatBar() {
                 </label>
               )}
               {image && (
-                <div className="relative ml-3">
+                <div className="relative pl-3">
                   <img
                     src={image}
                     alt="Preview"
@@ -118,7 +123,7 @@ export default function ChatBar() {
                     onClick={handleImageRemove}
                     className="absolute right-0 top-0 -mr-2 -mt-2 rounded-full bg-gray-500 p-1 text-white hover:bg-gray-700"
                   >
-                    <RiCloseCircleLine size={12} />
+                    <IoCloseSharp size={12} />
                   </button>
                 </div>
               )}
