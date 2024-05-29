@@ -196,91 +196,119 @@ style BoiledWater, RemovedTea, MilkDecision fill:#fff,stroke:#f66,stroke-width:2
         I -->|Feedback| A;
     end
 `,
+  hadoop: `graph TD
+    subgraph Hadoop_Architecture
+        A[Hadoop Ecosystem] -->|Distributed Storage| B{HDFS};
+        A -->|Distributed Processing| C{YARN};
+        A -->|Data Processing| D{MapReduce};
+    end
+    B -->|Data Storage| E[Data Nodes];
+    B -->|Metadata Storage| F[NameNode];
+    C -->|Resource Management| G[ResourceManager];
+    C -->|Task Management| H{NodeManagers};
+    D -->|Data Processing| I{Map Tasks};
+    D -->|Data Aggregation| J{Reduce Tasks};
+    H -->|Task Execution| I;
+    H -->|Task Execution| J;
+    I -->|Shuffle and Sort| J;
+    J -->|Output Results| K[Output Data];
+    K -->|Processed Data| A;`,
+  deadlock: `graph TD;
+    subgraph Deadlock_Conditions
+        A[Multiple Processes] -->|Requesting Resources| B[Holding Resources];
+        B -->|Circular Wait| C[Deadlock];
+    end
+    subgraph Deadlock_Example
+        D{{Process 1}} -->|Requests Resource A| E{{Resource A}};
+        E -->|Holding Resource B| F{{Process 2}};
+        F -->|Requests Resource C| G{{Resource C}};
+        G -->|Holding Resource A| D;
+    end
+    subgraph Deadlock_Prevention
+        H[Prevent Circular Wait] -->|Resource Ordering| I[Assign Unique Order];
+        I -->|Request Resources in Order| J[Avoid Deadlock];
+    end
+    subgraph Deadlock_Detection
+        K[Detect Deadlock] -->|Resource Allocation Graph| L[Identify Cycles];
+        L -->|Rollback Processes| M[Recover from Deadlock];
+    end
+    subgraph Deadlock_Recovery
+        N[Break Deadlock] -->|Process Termination| O[Kill Processes];
+        N -->|Resource Preemption| P[Force Release Resources];
+    end`,
 };
+
+const base = `https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/`;
 
 export const creations = [
   {
-    id: 1,
     name: "HTTP",
     code: "http",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/http.png",
+    imageSrc: `${base}http.png`,
   },
   {
-    id: 2,
     name: "Water Jug Problem",
     code: "waterjug",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/waterjug.png",
+    imageSrc: `${base}waterjug.png`,
   },
   {
-    id: 3,
     name: "Redis",
     code: "redis",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/redis.png",
+    imageSrc: `${base}redis.png`,
   },
   {
-    id: 4,
     name: "GraphQL",
     code: "graphql",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/graphql.png",
+    imageSrc: `${base}graphql.png`,
   },
   {
-    id: 5,
     name: "How to make Biryani",
     code: "biryani",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/biryani.png",
+    imageSrc: `${base}biryani.png`,
   },
   {
-    id: 6,
     name: "how to make Tea",
     code: "tea",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/tea.png",
+    imageSrc: `${base}tea.png`,
   },
   {
-    id: 7,
     name: "REST API",
     code: "rest",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/rest.png",
+    imageSrc: `${base}rest.png`,
   },
   {
-    id: 8,
     name: "RAGs",
     code: "rag",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/rag.png",
+    imageSrc: `${base}rag.png`,
   },
   {
-    id: 9,
     name: "N-Queen Problem",
     code: "nqueen",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/nqueen.png",
+    imageSrc: `${base}nqueen.png`,
   },
   {
-    id: 9,
     name: "Travelling Salseman",
     code: "tsp",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/tsp.png",
+    imageSrc: `${base}tsp.png`,
   },
   {
-    id: 10,
     name: "Transformers",
     code: "transformer",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/transformer.png",
+    imageSrc: `${base}transformer.png`,
   },
   {
-    id: 11,
     name: "DevOps",
     code: "devops",
-    imageSrc:
-      "https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/devops.png",
+    imageSrc: `${base}devops.png`,
+  },
+  {
+    name: "Hadoop",
+    code: "hadoop",
+    imageSrc: `${base}hadoop.png`,
+  },
+  {
+    name: "DeadLock",
+    code: "deadlock",
+    imageSrc: `${base}deadlock.png`,
   },
 ];

@@ -59,9 +59,9 @@ export default function Creations() {
           <AnimatePresence>
             {creations
               .slice(0, isMobile ? visibleItems : creations.length)
-              .map((product) => (
+              .map((product, index) => (
                 <motion.div
-                  key={product.id}
+                  key={index}
                   className="group relative cursor-pointer overflow-hidden rounded-lg bg-slate-500 transition-all ease-in-out hover:scale-105"
                   onClick={() => {
                     handleCardClick(product.code);

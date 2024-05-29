@@ -57,10 +57,61 @@ async function runChat(prompt: string) {
   - avoid including parenthesis
   - Generate code with no syntax errors.
   - Do not include the triple tics. I do not want \`\`\`mermaid at the beginning of the response.
-  - Just give plain mermaid code without backtics and dont use () parenthesis.
-  - We are creating flowcharts to explain processes, so please add proper steps and instructions.
+  - using parentheses in node titles can indeed cause syntax errors in Mermaid JS. Parentheses are interpreted by Mermaid as part of its syntax for defining node shapes and types. To avoid such errors, you should either:
 
-  Here is the user query:
+    1. Escape Parentheses: Use backslashes to escape the parentheses.
+      - Example: A["Node with \(parentheses\)"]
+
+    2. Use Different Characters: Replace parentheses with other characters or symbols that do not conflict with Mermaid's syntax.
+
+    Here is an example of a flowchart node with escaped parentheses:
+
+    graph TD
+        A["Node with \(parentheses\)"]
+        B["Another node"]
+        A --> B
+
+        Here is an example of a good graph:
+
+        <exammple 1>
+        RAG explanation
+
+        graph TD;
+          subgraph Input_Data
+              A[Input Data] -->|Preprocessed| B[Graph Structure];
+          end
+          subgraph Graph_Structure
+              B -->|Node Features| C[Node Embeddings];
+              B -->|Edge Features| D[Edge Embeddings];
+          end
+          subgraph Model
+              C -->|Node Embeddings| E[Node Attention];
+              D -->|Edge Embeddings| F[Edge Attention];
+              E -->|Aggregated Information| G[Graph Attention];
+              G -->|Update Node Representations| H[Node Update];
+              H -->|New Node Representations| E;
+          end
+          subgraph Output
+              H -->|Final Node Representations| I[Output];
+          end
+
+          <example 2>
+          GraphQL
+
+          graph TD;
+            subgraph Client_Application
+                A[Client Application] -->|Sends GraphQL Query| B[GraphQL Server];
+            end
+            subgraph GraphQL_Server
+                B -->|Receives Query| C[Schema];
+                C -->|Validates and Parses Query| D[Resolver Functions];
+                D -->|Fetches Data| E[Data Sources];
+                D -->|Formats Response| B;
+                E -->|Returns Data| D;
+            end
+            B -->|Returns Response| A;
+
+  Here is the user query, gemerate a similar mermaid graph for the query:
   `;
 
   const chat = model.startChat({

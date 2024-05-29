@@ -56,16 +56,6 @@ function NavbarComponent({ className }: { className?: string }) {
               </Link>
             </HoveredLink>
             <HoveredLink>
-              <Link href="https://github.com/adimail/mermaid-editor">
-                Source Code
-              </Link>
-            </HoveredLink>
-            <HoveredLink>
-              <Link href="https://github.com/adimail/mermaid-editor/blob/main/README.md">
-                Dependencies
-              </Link>
-            </HoveredLink>
-            <HoveredLink>
               <Link href={"/new"}>Comming Soon...</Link>
             </HoveredLink>
           </div>

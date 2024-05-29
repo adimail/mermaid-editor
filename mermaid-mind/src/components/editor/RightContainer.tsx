@@ -18,6 +18,8 @@ import { IoMdMove } from "react-icons/io";
 import { downloadImgAsPng, downloadImgAsSvg } from "@/utils/utils";
 import { useState } from "react";
 import { useStore } from "@/store";
+import { FaCloudUploadAlt } from "react-icons/fa";
+import { CloudSaveModal } from "../modals";
 
 const RightContainer = () => {
   const panZoom = useStore.use.panZoom();
@@ -69,6 +71,16 @@ const RightContainer = () => {
 
 const ExportMenu = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
   const open = Boolean(anchorEl);
   const onExport = async (type: string) => {
     try {
@@ -91,13 +103,20 @@ const ExportMenu = () => {
 
   return (
     <>
-      <Button
-        endIcon={<KeyboardArrowDownRoundedIcon />}
-        color="inherit"
-        onClick={(event) => setAnchorEl(event.currentTarget)}
-      >
-        Export
-      </Button>
+      <div className="flex items-center gap-6">
+        <Button
+          endIcon={<KeyboardArrowDownRoundedIcon />}
+          color="inherit"
+          onClick={(event) => setAnchorEl(event.currentTarget)}
+        >
+          Export
+        </Button>
+        <FaCloudUploadAlt
+          size={24}
+          className="cursor-pointer hover:scale-105 hover:text-gray-400"
+          onClick={handleModalOpen}
+        />
+      </div>
       <Menu anchorEl={anchorEl} open={open} onClose={() => setAnchorEl(null)}>
         <MenuItem onClick={() => onExport("png")}>
           <ListItemIcon>
@@ -112,6 +131,7 @@ const ExportMenu = () => {
           <ListItemText>SVG</ListItemText>
         </MenuItem>
       </Menu>
+      <CloudSaveModal open={modalOpen} onClose={handleModalClose} />
     </>
   );
 };

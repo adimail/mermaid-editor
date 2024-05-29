@@ -39,13 +39,21 @@ const View = () => {
       setValidateCodeState(code);
       setValidateConfigState(config);
     } catch (error) {
-      console.log(error);
+      let errorMessage: string;
+      if (error instanceof Error) {
+        errorMessage = `Syntax error: ${error.message}`;
+      } else {
+        errorMessage = "Syntax error: Unknown error";
+      }
+      setValidateCode(errorMessage);
+      setValidateConfig(config);
+      setValidateCodeState(errorMessage);
+      setValidateConfigState(config);
     }
   };
 
   const renderDiagram = async (code: string, config: string) => {
     if (container.current && code) {
-      // const scroll = view.current?.parentElement?.scrollTop
       const { svg } = await render(
         { ...JSON.parse(config) },
         code,
@@ -61,13 +69,10 @@ const View = () => {
         }
         graphDiv.setAttribute("height", "100%");
         graphDiv.style.maxWidth = "100%";
-        // if (bindFunctions) bindFunctions(graphDiv)
-        // if (view.current?.parentElement && scroll) {
-        //   view.current.parentElement.scrollTop = scroll
-        // }
       }
     }
   };
+
   const handlePanZoomChange = () => {
     if (!pzoom.current) return;
     const pan = pzoom.current.getPan();
@@ -95,6 +100,7 @@ const View = () => {
       }
     });
   };
+
   useEffect(() => {
     renderDiagram(validateCode, validateConfig);
   }, [validateCode, validateConfig, panZoom]);
@@ -119,12 +125,18 @@ const View = () => {
 
   return (
     <Box ref={view} component="div" sx={{ height: "100%" }}>
-      <Box
-        id="container"
-        ref={container}
-        component="div"
-        sx={{ height: "100%" }}
-      ></Box>
+      {validateCode.startsWith("Syntax error") ? (
+        <Box component="div" sx={{ color: "red", padding: 2 }}>
+          {validateCode}
+        </Box>
+      ) : (
+        <Box
+          id="container"
+          ref={container}
+          component="div"
+          sx={{ height: "100%" }}
+        ></Box>
+      )}
     </Box>
   );
 };

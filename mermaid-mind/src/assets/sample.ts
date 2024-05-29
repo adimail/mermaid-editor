@@ -106,24 +106,6 @@ export const samples: Record<string, string> = {
     y-axis "Number of Users" 0 --> 10000
     bar [200, 400, 800, 1500, 3000, 5000, 7000, 8500, 9500, 10000, 9800, 9500]
     line [200, 400, 800, 1500, 3000, 5000, 7000, 8500, 9500, 10000, 9800, 9500]`,
-  Block: `block-beta
-    columns 3
-    doc>"Mermaid Mind Documentation"]:3
-    space down1<[" "]>(down) space
-
-  block:e:3
-          l["Introduction"]
-          m("Key Features of Mermaid Mind")
-          r["How to Use"]
-  end
-    space down2<[" "]>(down) space
-    db[("Database")]:3
-    space:3
-    D space C
-    db --> D
-    C --> db
-    D --> C
-    style m fill:#d6d,stroke:#333,stroke-width:4px`,
   UserJourney: `journey
     title Mermaid Mind User Experience
     section Onboarding

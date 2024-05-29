@@ -25,8 +25,8 @@ export default function ChatBar() {
     if (message.length > 10) {
       setResponse("Generating the mermaid diagram you requested...");
       const apiResponse = await runChat(message);
-      setResponse(apiResponse);
       setMessage("");
+      setResponse(apiResponse);
       setImage(null);
     }
   }
@@ -73,17 +73,31 @@ export default function ChatBar() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      SendUserQuery();
+    }
+  };
+
   return (
     <>
       <Response response={response} clearResponse={clearResponse} />
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-[#9e9e9e] to-[#ffffff00] pt-8 shadow-lg transition-all duration-300 ease-in-out dark:bg-gray-950 dark:shadow-gray-800">
         <div className="container flex justify-center px-4 py-4">
           {showLength && (
-            <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-start">
-              <span className="text-sm text-black">
-                {message.length}/{MaxLength}
-              </span>
-            </div>
+            <>
+              <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-start">
+                <span className="text-sm text-black">
+                  {message.length}/{MaxLength}
+                </span>
+              </div>
+              <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-end">
+                <span className="text-sm text-black">
+                  Generate a chart for...
+                </span>
+              </div>
+            </>
           )}
           <div
             className="relative flex w-full max-w-[700px] flex-col overflow-hidden rounded-3xl bg-gray-200 p-1 dark:bg-gray-800"
@@ -100,6 +114,7 @@ export default function ChatBar() {
                 onFocus={HandleFocus}
                 onBlur={() => setShowLength(false)}
                 value={message}
+                onKeyDown={handleKeyDown}
                 onChange={handleMessageChange}
                 style={{
                   maxHeight: "100px",
