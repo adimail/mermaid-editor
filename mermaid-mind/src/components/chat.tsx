@@ -92,11 +92,11 @@ export default function ChatBar() {
                   {message.length}/{MaxLength}
                 </span>
               </div>
-              <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-end">
+              {/* <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-end">
                 <span className="text-sm text-black">
                   Generate a chart for...
                 </span>
-              </div>
+              </div> */}
             </>
           )}
           <div

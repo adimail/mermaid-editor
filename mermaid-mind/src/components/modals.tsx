@@ -32,7 +32,7 @@ export const CloudSaveModal: React.FC<CloudSaveModalProps> = ({
           }}
           color="primary"
         >
-          Save
+          Close
         </Button>
       </DialogActions>
     </Dialog>
