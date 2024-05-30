@@ -1,15 +1,16 @@
 // import { CreatePost } from "@/components/create-post";
 // import { getServerAuthSession } from "@/server/auth";
-import { api } from "@/trpc/server";
+// import { api } from "@/trpc/server";
 import MermaidEditor from "../components/EditorComponent";
 import { NavBar } from "@/components/nav/nav";
 import Explore from "@/components/explore";
 import ChatBar from "@/components/chat";
 import Creations from "@/components/creations/creations";
 import Guide from "@/components/guide";
+// import { api } from "@/trpc/server";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
+  // const hello = await api.post.hello({ text: "from tRPC" });
   // const session = await getServerAuthSession();
 
   return (
@@ -26,9 +27,9 @@ export default async function Home() {
 
       <Guide />
 
-      <p className="text-sm text-white">
+      {/* <p className="text-sm text-white">
         {hello ? hello.greeting : "Loading tRPC query..."}
-      </p>
+      </p> */}
       {/* <div className="flex flex-col items-center gap-2">
 
           <div className="flex flex-col items-center gap-4">

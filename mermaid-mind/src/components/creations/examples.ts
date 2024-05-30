@@ -236,6 +236,17 @@ style BoiledWater, RemovedTea, MilkDecision fill:#fff,stroke:#f66,stroke-width:2
         N[Break Deadlock] -->|Process Termination| O[Kill Processes];
         N -->|Resource Preemption| P[Force Release Resources];
     end`,
+  trcp: `graph TD;
+    subgraph Client_Request
+        A[Client Request] -->|Sends Request| B[Next.js Server];
+    end
+    subgraph Next.js_Server
+      B -->|Receives Request| C[trcp Middleware];
+      C -->|Processes Request| D[trcp Function];
+      D -->|Handles Request| E[Next.js Router];
+      E -->|Renders Response| B;
+    end
+    B -->|Returns Response| A;`,
 };
 
 const base = `https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/`;
@@ -310,5 +321,10 @@ export const creations = [
     name: "DeadLock",
     code: "deadlock",
     imageSrc: `${base}deadlock.png`,
+  },
+  {
+    name: "TRCP in NextJS",
+    code: "deadlock",
+    imageSrc: `${base}trcp.png`,
   },
 ];

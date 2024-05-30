@@ -5,6 +5,13 @@ import { parse, render } from "@/utils/mermaid";
 import svgPanZoom from "svg-pan-zoom";
 import { useStore } from "@/store";
 
+const customMessage = `\n\nIf you are using AI, Gemini can be incorrect sometimes and may provide syntax errors. 
+In such cases please manually fix them.
+
+Common gemini syntax Errors:
+- Comments (remove all comments)
+- Parenthesis or single or double quotes in node titles (remove them)`;
+
 const View = () => {
   const code = useStore.use.code();
   const config = useStore.use.config();
@@ -41,7 +48,7 @@ const View = () => {
     } catch (error) {
       let errorMessage: string;
       if (error instanceof Error) {
-        errorMessage = `Syntax error: ${error.message}`;
+        errorMessage = `Syntax error: ${error.message} ${customMessage}`;
       } else {
         errorMessage = "Syntax error: Unknown error";
       }

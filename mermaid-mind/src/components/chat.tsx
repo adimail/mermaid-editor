@@ -11,7 +11,7 @@ import { motion } from "framer-motion";
 import { IoMdCodeDownload } from "react-icons/io";
 import { useStore } from "@/store";
 import { IoCloseSharp } from "react-icons/io5";
-import runChat from "@/gemini/config";
+import { api } from "@/trpc/react";
 
 export default function ChatBar() {
   const [message, setMessage] = useState("");
@@ -21,13 +21,24 @@ export default function ChatBar() {
   const [showLength, setShowLength] = useState(false);
   const MaxLength = 2500;
 
-  async function SendUserQuery() {
-    if (message.length > 10) {
-      setResponse("Generating the mermaid diagram you requested...");
-      const apiResponse = await runChat(message);
+  const mutation = api.post.getMermaidDiagram.useMutation({
+    onSuccess: (diagram) => {
+      console.log("Diagram received:", diagram);
       setMessage("");
-      setResponse(apiResponse);
+      setResponse(diagram.mermaid);
       setImage(null);
+    },
+    onError: (error) => {
+      console.error("Error fetching diagram:", error);
+      setResponse("Error generating diagram. Please try again.");
+    },
+  });
+
+  async function SendUserQuery() {
+    if (message.length > 3) {
+      setResponse("Generating the mermaid diagram you requested...");
+      mutation.mutate({ query: message });
+      console.log("Mutation called with message:", message);
     }
   }
 
@@ -50,11 +61,7 @@ export default function ChatBar() {
   };
 
   const HandleFocus = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setShowLength(true);
   };
 
@@ -86,24 +93,15 @@ export default function ChatBar() {
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-[#9e9e9e] to-[#ffffff00] pt-8 shadow-lg transition-all duration-300 ease-in-out dark:bg-gray-950 dark:shadow-gray-800">
         <div className="container flex justify-center px-4 py-4">
           {showLength && (
-            <>
-              <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-start">
-                <span className="text-sm text-black">
-                  {message.length}/{MaxLength}
-                </span>
-              </div>
-              {/* <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-end">
-                <span className="text-sm text-black">
-                  Generate a chart for...
-                </span>
-              </div> */}
-            </>
+            <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-start">
+              <span className="text-sm text-black">
+                {message.length}/{MaxLength}
+              </span>
+            </div>
           )}
           <div
             className="relative flex w-full max-w-[700px] flex-col overflow-hidden rounded-3xl bg-gray-200 p-1 dark:bg-gray-800"
-            style={{
-              maxHeight: "400px",
-            }}
+            style={{ maxHeight: "400px" }}
           >
             <div className="flex items-center">
               <Textarea
@@ -116,10 +114,7 @@ export default function ChatBar() {
                 value={message}
                 onKeyDown={handleKeyDown}
                 onChange={handleMessageChange}
-                style={{
-                  maxHeight: "100px",
-                  minHeight: "48px",
-                }}
+                style={{ maxHeight: "100px", minHeight: "48px" }}
                 maxLength={MaxLength}
               />
 
@@ -156,7 +151,6 @@ export default function ChatBar() {
               <Button
                 className="rounded-full px-3 text-gray-500 hover:bg-gray-300 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-gray-50"
                 size="icon"
-                type="submit"
                 variant="ghost"
                 onClick={SendUserQuery}
               >
@@ -223,7 +217,7 @@ const Response = ({
             onClick={clearResponse}
             className="flex items-center gap-2 rounded-full bg-gray-300 p-1 px-2 text-gray-900 hover:bg-gray-400"
           >
-            Close <RiCloseCircleLine size={20} />
+            Close <RiCloseCircleLine size={16} />
           </button>
         </div>
       </div>
