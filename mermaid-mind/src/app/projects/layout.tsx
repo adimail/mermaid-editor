@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { TRPCReactProvider } from "@/trpc/react";
 import AppContextProvider from "@/providers/providers";
+import { Toaster } from "@/components/ui/toaster";
 
 const siteConfig = {
   name: "Your projects",
@@ -51,6 +52,7 @@ export default function RootLayout({
         <AppContextProvider>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </AppContextProvider>
+        <Toaster />
       </body>
     </html>
   );

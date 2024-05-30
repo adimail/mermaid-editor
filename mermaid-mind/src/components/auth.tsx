@@ -20,10 +20,13 @@ import { FaUser, FaFolderOpen } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RiMenu4Fill } from "react-icons/ri";
+import { Session } from "next-auth";
 
-export default function UserAuth() {
-  const { data: session } = useSession();
+interface SessionProps {
+  session: Session | null;
+}
 
+export default function UserAuth({ session }: SessionProps) {
   const handleSignOut = async () => {
     try {
       await signOut();
@@ -93,7 +96,7 @@ export default function UserAuth() {
   );
 }
 
-export function SheetComponent() {
+export function SheetComponent({ session }: SessionProps) {
   return (
     <Sheet>
       <SheetTrigger>
@@ -137,7 +140,7 @@ export function SheetComponent() {
                   <Link href="/new">Coming Soon</Link>
                 </li>
               </ul>
-              <UserAuth />
+              <UserAuth session={session} />
             </div>
           </SheetDescription>
         </SheetHeader>

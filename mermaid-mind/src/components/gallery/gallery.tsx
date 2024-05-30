@@ -4,19 +4,18 @@ import { useState, useEffect } from "react";
 import { TabsTrigger, TabsList, TabsContent, Tabs } from "@/components/ui/tabs";
 import Link from "next/link";
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
-import { Card } from "@/components/ui/card";
-import { render } from "@/utils/mermaid";
+import { render, parse } from "@/utils/mermaid";
 import { calculateTimeDifference } from "@/utils/utils";
 import { Boxes } from "@/components/ui/background-boxes";
+import { cn } from "@/lib/utils";
+import UserAuth from "@/components/auth";
 import { Session } from "next-auth";
-import { useToast } from "@/components/ui/use-toast";
-
-interface ResultsProps {
-  session: Session | null;
-}
+import { motion } from "framer-motion";
+import { useToast } from "../ui/use-toast";
 
 interface Project {
   _id: string;
+  userID: string;
   userName: string;
   userProfile: string;
   title: string;
@@ -30,7 +29,11 @@ interface Project {
 
 type DiagramHtml = Record<string, string>;
 
-export default function Results({ session }: ResultsProps) {
+interface SessionProps {
+  session: Session | null;
+}
+
+export default function GalleryPage({ session }: SessionProps) {
   const [newGenerations, setNewGenerations] = useState<Project[]>([]);
   const [diagramHtml, setDiagramHtml] = useState<DiagramHtml>({});
   const [loading, setLoading] = useState(true);
@@ -50,19 +53,8 @@ export default function Results({ session }: ResultsProps) {
       });
   };
 
-  const parseMermaidString = (input: string): string => {
-    if (input.startsWith('"') && input.endsWith('"')) {
-      input = input.slice(1, -1);
-    }
-    return input.replace(/\\n/g, "\n");
-  };
-
   useEffect(() => {
-    let url = `/api/projects`;
-    if (session) {
-      url = `/api/projects?userID=${session?.user.id}`;
-    }
-    fetch(url)
+    fetch("/api/projects")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -81,7 +73,16 @@ export default function Results({ session }: ResultsProps) {
         console.error("Error fetching new generations:", error);
         setLoading(false);
       });
-  }, [session]);
+  }, []);
+
+  function parseMermaidString(input: string): string {
+    if (input.startsWith('"') && input.endsWith('"')) {
+      input = input.slice(1, -1);
+    }
+
+    const output = input.replace(/\\n/g, "\n");
+    return output;
+  }
 
   useEffect(() => {
     const renderDiagrams = async () => {
@@ -122,22 +123,15 @@ export default function Results({ session }: ResultsProps) {
               Mermaid <span className="text-[hsl(280,100%,70%)]">Mind</span>
             </Link>
           </div>
-          <div className="z-50 flex flex-col items-center">
-            <Avatar className="h-24 w-24 border-4 border-gray-200 dark:border-gray-800">
-              <AvatarImage
-                alt="Mermaid Mind User"
-                src={session?.user.image ?? ""}
-              />
-              <AvatarFallback>JP</AvatarFallback>
-            </Avatar>
-            <h1 className="mt-4 text-3xl font-bold text-white">
-              {session?.user.name}
-            </h1>
-            <h1 className="text-md mt-2 font-bold text-white">
-              {!loading &&
-                `Created ${newGenerations.length} diagram${newGenerations.length > 1 || newGenerations.length === 0 ? `s` : ``}`}
-            </h1>
+          <div className="absolute right-5 top-5 z-50 flex items-center gap-4">
+            <UserAuth session={session} />
           </div>
+          <h1 className={cn("relative z-20 text-xl text-white md:text-4xl")}>
+            Public gallery of Mermaid Diagrams
+          </h1>
+          <p className="relative z-20 mt-2 text-center text-neutral-300">
+            Browse for inspirations and add yours as well
+          </p>
         </div>
 
         <div className="container mt-12">
@@ -146,57 +140,67 @@ export default function Results({ session }: ResultsProps) {
             defaultValue="new"
           >
             <TabsContent value="new">
-              <div>
-                {loading ? (
-                  <div className="flex h-64 items-center justify-center">
-                    Loading...
-                  </div>
-                ) : newGenerations.length > 0 ? (
-                  <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {newGenerations.map((diagram) => (
-                      <Card
+              {loading ? (
+                <div className="flex h-64 items-center justify-center">
+                  Loading...
+                </div>
+              ) : (
+                <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                  {newGenerations.length > 0 ? (
+                    newGenerations.map((diagram) => (
+                      <motion.div
                         key={diagram._id}
                         onClick={() => handleClick(diagram)}
                         className="group relative cursor-pointer overflow-hidden rounded-3xl border-2 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl"
                       >
                         <div
-                          className=" h-64 w-full overflow-hidden"
+                          className="size-fit h-64 w-full overflow-hidden bg-slate-300"
                           style={{ aspectRatio: "500/400" }}
                           dangerouslySetInnerHTML={{
                             __html:
                               diagramHtml[diagram._id] ?? "<p>Loading...</p>",
                           }}
                         />
-                        <div className="h-full bg-slate-500 p-4 text-white">
+                        <div className="absolute left-4 top-4 z-20">
+                          <motion.div
+                            className="avatar-container"
+                            initial={{ y: 0, opacity: 1 }}
+                            whileHover={{ y: -20, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            <Avatar className="border-2 border-white shadow-lg dark:border-gray-950">
+                              <AvatarImage
+                                alt={`Avatar of ${diagram.userName}`}
+                                src={diagram.userProfile}
+                              />
+                              <AvatarFallback>
+                                {diagram.userName[0]}
+                              </AvatarFallback>
+                            </Avatar>
+                          </motion.div>
+                        </div>
+                        <div className="flex h-full w-full bg-slate-500 p-4 text-center text-white">
                           <h3 className="truncate text-xl font-bold">
                             {diagram.title}
                           </h3>
-                          <p className="absolute right-4 top-4 z-20 m-0 w-fit truncate rounded-full bg-slate-700 bg-opacity-75 px-2 text-gray-100">
-                            {calculateTimeDifference(diagram.created)}
-                          </p>
+                          <div className="absolute right-4 top-4 z-20">
+                            <motion.p
+                              className="timestamp-container m-0 w-fit truncate rounded-full bg-slate-700 bg-opacity-75 px-2 text-gray-100"
+                              initial={{ y: 0, opacity: 1 }}
+                              whileHover={{ y: -20, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                            >
+                              {calculateTimeDifference(diagram.created)}
+                            </motion.p>
+                          </div>
                         </div>
-                      </Card>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex h-32 flex-col items-center justify-center">
-                    <div className="space-y-4 text-center">
-                      <h2 className="text-2xl font-bold">
-                        You have no saved projects
-                      </h2>
-                      <p className="text-gray-500">
-                        Your saved projects will be seen here.
-                      </p>
-                    </div>
-                    <Link
-                      className="mt-8 rounded-full bg-gray-900 px-6 py-3 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                      href="/"
-                    >
-                      Home
-                    </Link>
-                  </div>
-                )}
-              </div>
+                      </motion.div>
+                    ))
+                  ) : (
+                    <p>No projects found</p>
+                  )}
+                </div>
+              )}
             </TabsContent>
           </Tabs>
         </div>

@@ -9,61 +9,61 @@ import {
 } from "@/components/ui/nav-bar";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
+import { Session } from "next-auth";
 
-export function NavBar() {
-  return (
-    <div className="relative flex w-full items-center justify-center">
-      <NavbarComponent className="top-2" />
-    </div>
-  );
+interface SessionProps {
+  session: Session | null;
 }
 
-function NavbarComponent({ className }: { className?: string }) {
+export function NavBar({ session }: SessionProps) {
   const [active, setActive] = useState<string | null>(null);
+
   return (
-    <div className={cn("z-50 w-full items-center", className)}>
-      <Menu setActive={setActive}>
-        <MenuItem setActive={setActive} active={active} item="Generative AI">
-          <div className="flex flex-col gap-8 p-2 text-sm">
-            <ProductItem
-              title="Mermaid Charts"
-              href="/generate"
-              src="/mermaid.webp"
-              description="Use natural language to generate mermaid diagrams"
-            />
-            <ProductItem
-              title="Markdown"
-              href="/generate"
-              src="/markdown.avif"
-              description="Generate markdown content using natural language"
-            />
-            <ProductItem
-              title="Image to chart"
-              href="/generate"
-              src="/image-upload.avif"
-              description="Upload images and generate the charts from the images"
-            />
-          </div>
-        </MenuItem>
-        <MenuItem setActive={setActive} active={active} item="About">
-          <div className="flex flex-col space-y-4 text-sm">
-            <HoveredLink>
-              <Link href="https://adimail.github.io/about">Developer</Link>
-            </HoveredLink>
-            <HoveredLink>
-              <Link href="https://adimail.github.io/posts/mermaid-js/">
-                Mermaid JS
-              </Link>
-            </HoveredLink>
-            <HoveredLink>
-              <Link href="/gallery">Public gallery</Link>
-            </HoveredLink>
-            <HoveredLink>
-              <Link href={"/new"}>Comming Soon...</Link>
-            </HoveredLink>
-          </div>
-        </MenuItem>
-      </Menu>
+    <div className="relative flex w-full items-center justify-center">
+      <div className={cn("top-2 z-50 w-full items-center")}>
+        <Menu setActive={setActive} session={session}>
+          <MenuItem setActive={setActive} active={active} item="Generative AI">
+            <div className="flex flex-col gap-8 p-2 text-sm">
+              <ProductItem
+                title="Mermaid Charts"
+                href="/generate"
+                src="/mermaid.webp"
+                description="Use natural language to generate mermaid diagrams"
+              />
+              <ProductItem
+                title="Markdown"
+                href="/generate"
+                src="/markdown.avif"
+                description="Generate markdown content using natural language"
+              />
+              <ProductItem
+                title="Image to chart"
+                href="/generate"
+                src="/image-upload.avif"
+                description="Upload images and generate the charts from the images"
+              />
+            </div>
+          </MenuItem>
+          <MenuItem setActive={setActive} active={active} item="About">
+            <div className="flex flex-col space-y-4 text-sm">
+              <HoveredLink>
+                <Link href="https://adimail.github.io/about">Developer</Link>
+              </HoveredLink>
+              <HoveredLink>
+                <Link href="https://adimail.github.io/posts/mermaid-js/">
+                  Mermaid JS
+                </Link>
+              </HoveredLink>
+              <HoveredLink>
+                <Link href="/gallery">Public gallery</Link>
+              </HoveredLink>
+              <HoveredLink>
+                <Link href={"/new"}>Comming Soon...</Link>
+              </HoveredLink>
+            </div>
+          </MenuItem>
+        </Menu>
+      </div>
     </div>
   );
 }

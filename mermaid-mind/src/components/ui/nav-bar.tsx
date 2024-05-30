@@ -1,11 +1,9 @@
-"use client";
-
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import EditorType from "@/components/nav/editortypeDropdown";
 import UserAuth, { SheetComponent } from "../auth";
+import { Session } from "next-auth";
 
 const transition = {
   type: "spring",
@@ -66,13 +64,15 @@ export const MenuItem = ({
 export const Menu = ({
   setActive,
   children,
+  session,
 }: {
   setActive: (item: string | null) => void;
   children: React.ReactNode;
+  session: Session | null;
 }) => {
   return (
     <nav
-      onMouseLeave={() => setActive(null)} // resets the state
+      onMouseLeave={() => setActive(null)}
       className="boder relative mb-10 flex items-center justify-between space-x-4 border-transparent bg-slate-800 px-3 py-4 shadow-input md:px-8"
     >
       <div className="flex items-center gap-4">
@@ -82,13 +82,12 @@ export const Menu = ({
       </div>
 
       <div className="flex items-center gap-3  md:gap-10">
-        {/* <EditorType /> */}
         <div className="hidden gap-4 md:flex">{children}</div>
         <div className="hidden md:block">
-          <UserAuth />
+          <UserAuth session={session} />
         </div>
         <div className="block md:hidden">
-          <SheetComponent />
+          <SheetComponent session={session} />
         </div>
       </div>
     </nav>

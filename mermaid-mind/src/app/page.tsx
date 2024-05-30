@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
     <main className="mb-20 flex min-h-screen flex-col text-white">
-      <NavBar />
+      <NavBar session={session} />
 
       <ChatBar />
 
