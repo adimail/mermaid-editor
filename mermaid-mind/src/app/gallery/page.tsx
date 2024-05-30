@@ -25,9 +25,7 @@ interface Project {
   created: string;
 }
 
-interface DiagramHtml {
-  [key: string]: string;
-}
+type DiagramHtml = Record<string, string>;
 
 export default function GalleryPage() {
   const [newGenerations, setNewGenerations] = useState<Project[]>([]);
@@ -77,20 +75,28 @@ export default function GalleryPage() {
   }
 
   useEffect(() => {
-    newGenerations.forEach(async (diagram) => {
+    const renderDiagrams = async () => {
       try {
-        const config = JSON.parse(diagram.config);
-        const parsedCode = parseMermaidString(diagram.code);
-        const { svg } = await render(
-          config,
-          parsedCode,
-          `diagram-${diagram._id}`,
+        await Promise.all(
+          newGenerations.map(async (diagram) => {
+            const config = JSON.parse(diagram.config);
+            const parsedCode = parseMermaidString(diagram.code);
+            const { svg } = await render(
+              config,
+              parsedCode,
+              `diagram-${diagram._id}`,
+            );
+            setDiagramHtml((prev) => ({ ...prev, [diagram._id]: svg }));
+          }),
         );
-        setDiagramHtml((prev) => ({ ...prev, [diagram._id]: svg }));
       } catch (error) {
-        console.error(`Error rendering diagram ${diagram._id}:`, error);
+        console.error("Error rendering diagrams:", error);
       }
-    });
+    };
+
+    if (newGenerations.length > 0) {
+      renderDiagrams();
+    }
   }, [newGenerations]);
 
   return (
@@ -142,7 +148,7 @@ export default function GalleryPage() {
                           style={{ aspectRatio: "500/400" }}
                           dangerouslySetInnerHTML={{
                             __html:
-                              diagramHtml[diagram._id] || "<p>Loading...</p>",
+                              diagramHtml[diagram._id] ?? "<p>Loading...</p>",
                           }}
                         />
                         <div className="absolute left-4 top-4 z-20">

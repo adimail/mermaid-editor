@@ -8,7 +8,6 @@ import { Card } from "@/components/ui/card";
 import { render, parse } from "@/utils/mermaid";
 import { calculateTimeDifference } from "@/utils/utils";
 import { Boxes } from "@/components/ui/background-boxes";
-import { cn } from "@/lib/utils";
 import { Session } from "next-auth";
 
 interface ResultsProps {
@@ -28,31 +27,33 @@ interface Project {
   created: string;
 }
 
-interface DiagramHtml {
-  [key: string]: string;
-}
+type DiagramHtml = Record<string, string>;
 
 export default function Results({ session }: ResultsProps) {
   const [newGenerations, setNewGenerations] = useState<Project[]>([]);
   const [diagramHtml, setDiagramHtml] = useState<DiagramHtml>({});
   const [loading, setLoading] = useState(true);
 
-  const handleClick = (code: string) => {
-    navigator.clipboard
-      .writeText(parseMermaidString(code))
-      .then(() => {
-        alert("Mermaid code copied to clipboard");
-      })
-      .catch((err) => {
-        console.error("Failed to copy: ", err);
-      });
+  const handleClick = async (code: string) => {
+    try {
+      await navigator.clipboard.writeText(parseMermaidString(code));
+      alert("Mermaid code copied to clipboard");
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
+
+  const parseMermaidString = (input: string): string => {
+    if (input.startsWith('"') && input.endsWith('"')) {
+      input = input.slice(1, -1);
+    }
+    return input.replace(/\\n/g, "\n");
   };
 
   useEffect(() => {
     let url = `/api/projects`;
-
     if (session) {
-      url = `/api/projects?userID=${session?.user.id}`;
+      url = `/api/projects?userID=${session.user.id}`;
     }
     fetch(url)
       .then((response) => {
@@ -73,32 +74,31 @@ export default function Results({ session }: ResultsProps) {
         console.error("Error fetching new generations:", error);
         setLoading(false);
       });
-  }, []);
-
-  function parseMermaidString(input: string): string {
-    if (input.startsWith('"') && input.endsWith('"')) {
-      input = input.slice(1, -1);
-    }
-
-    const output = input.replace(/\\n/g, "\n");
-    return output;
-  }
+  }, [session]);
 
   useEffect(() => {
-    newGenerations.forEach(async (diagram) => {
+    const renderDiagrams = async () => {
       try {
-        const config = JSON.parse(diagram.config);
-        const parsedCode = parseMermaidString(diagram.code);
-        const { svg } = await render(
-          config,
-          parsedCode,
-          `diagram-${diagram._id}`,
+        await Promise.all(
+          newGenerations.map(async (diagram) => {
+            const config = JSON.parse(diagram.config);
+            const parsedCode = parseMermaidString(diagram.code);
+            const { svg } = await render(
+              config,
+              parsedCode,
+              `diagram-${diagram._id}`,
+            );
+            setDiagramHtml((prev) => ({ ...prev, [diagram._id]: svg }));
+          }),
         );
-        setDiagramHtml((prev) => ({ ...prev, [diagram._id]: svg }));
       } catch (error) {
-        console.error(`Error rendering diagram ${diagram._id}:`, error);
+        console.error("Error rendering diagrams:", error);
       }
-    });
+    };
+
+    if (newGenerations.length > 0) {
+      renderDiagrams();
+    }
   }, [newGenerations]);
 
   return (
@@ -119,7 +119,7 @@ export default function Results({ session }: ResultsProps) {
             <Avatar className="h-24 w-24 border-4 border-gray-200 dark:border-gray-800">
               <AvatarImage
                 alt="Mermaid Mind User"
-                src={session?.user.image || ""}
+                src={session?.user.image ?? ""}
               />
               <AvatarFallback>JP</AvatarFallback>
             </Avatar>
@@ -160,7 +160,7 @@ export default function Results({ session }: ResultsProps) {
                           style={{ aspectRatio: "500/400" }}
                           dangerouslySetInnerHTML={{
                             __html:
-                              diagramHtml[diagram._id] || "<p>Loading...</p>",
+                              diagramHtml[diagram._id] ?? "<p>Loading...</p>",
                           }}
                         />
                         <div className="absolute left-4 top-4 z-20">
