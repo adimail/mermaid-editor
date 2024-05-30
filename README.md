@@ -12,11 +12,11 @@ Create flowcharts, sequence diagrams, and more with Mermaid.js and AI. This proj
 - [x] Implement authentication and user management
 - [x] Integrate a LLM to generate Mermaid diagrams from natural language
 - [ ] Chat with the current diagram code
+- [x] MongoDB to save user data
+- [x] Allow users to make their diagrams public ([v0.dev](https://v0.dev/))
 - [ ] Develop chat history and conversation
 - [ ] mermaid diagrams from images
 - [ ] Improve image Quality of downloads
-- [ ] Allow users to make their diagrams public ([v0.dev](https://v0.dev/))
-- [ ] MongoDB to save user data
 - [ ] markdown editor
 
 Stay tuned for more updates and features!

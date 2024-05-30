@@ -1,6 +1,4 @@
-"use client";
-
-import { Tabs } from "./ui/tabs";
+import { Tabs } from "./ui/hero-tabs";
 
 export default function Guide() {
   const tabs = [
@@ -12,9 +10,9 @@ export default function Guide() {
           <p className="text-xl md:text-3xl">Editor</p>
           <p className="mt-4 text-sm md:text-lg">
             Glad you made it here. Mermaid JS is a good documentation tool
-            adapted by various platforms like Github for their makrkdowns,
-            Google Colab for their notebooks. I use mermaid for my project
-            reports, documentation, github readmes and more.
+            adapted by various platforms like Github for their markdowns, Google
+            Colab for their notebooks. I use mermaid for my project reports,
+            documentation, github readmes and more.
           </p>
         </div>
       ),
@@ -80,7 +78,7 @@ export default function Guide() {
         <div className="relative h-full w-full overflow-hidden rounded-2xl bg-gradient-to-br from-orange-600 to-yellow-800 px-3 pt-4 text-base text-white md:px-6 md:text-xl">
           <p className="text-xl md:text-3xl">Mermaid Tips</p>
           <p className="mt-4 text-sm md:text-lg">
-            Change themes from the Config pannel in editor. Avaliable themes:
+            Change themes from the Config panel in editor. Available themes:
           </p>
           <ul className="mt-4 list-inside list-disc text-sm md:text-lg">
             <li>dark</li>

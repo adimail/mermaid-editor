@@ -48,12 +48,15 @@ function NavbarComponent({ className }: { className?: string }) {
         <MenuItem setActive={setActive} active={active} item="About">
           <div className="flex flex-col space-y-4 text-sm">
             <HoveredLink>
-              <Link href="https://adimail.github.io">Developer</Link>
+              <Link href="https://adimail.github.io/about">Developer</Link>
             </HoveredLink>
             <HoveredLink>
               <Link href="https://adimail.github.io/posts/mermaid-js/">
                 Mermaid JS
               </Link>
+            </HoveredLink>
+            <HoveredLink>
+              <Link href="/gallery">Public gallery</Link>
             </HoveredLink>
             <HoveredLink>
               <Link href={"/new"}>Comming Soon...</Link>

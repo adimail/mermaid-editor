@@ -121,3 +121,29 @@ export const importJson = (): Promise<string> => {
     fileInput.click();
   });
 };
+
+export const calculateTimeDifference = (createdDate: string) => {
+  const [day, month, year] = createdDate.split("/").map(Number);
+
+  if (day && month && year) {
+    const created = new Date(year, month - 1, day);
+    const now = new Date();
+
+    const differenceInMillis = now.getTime() - created.getTime();
+    const differenceInDays = Math.floor(
+      differenceInMillis / (1000 * 60 * 60 * 24),
+    );
+
+    if (differenceInDays === 0) {
+      return "created today";
+    } else if (differenceInDays < 30) {
+      return `created ${differenceInDays} days ago`;
+    } else if (differenceInDays < 365) {
+      const months = Math.floor(differenceInDays / 30);
+      return `created ${months} ${months === 1 ? "month" : "months"} ago`;
+    } else {
+      const years = Math.floor(differenceInDays / 365);
+      return `created ${years} ${years === 1 ? "year" : "years"} ago`;
+    }
+  }
+};

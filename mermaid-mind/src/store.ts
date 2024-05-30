@@ -120,12 +120,21 @@ const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
 
 export const useStore = createSelectors(useStateStore);
 
-export const getJsonData = () => {
+export const getJsonData = (): { code: string; config: string } => {
   const code = useStore.getState().validateCode;
   const config = useStore.getState().validateConfig;
-  const json = {
-    code,
-    config: JSON.parse(config),
+
+  let parsedConfig = {};
+  if (typeof config === "string" && config.trim() !== "") {
+    try {
+      parsedConfig = JSON.parse(config);
+    } catch (error) {
+      console.error("Error parsing config JSON:", error);
+    }
+  }
+
+  return {
+    code: JSON.stringify(code, null, 2),
+    config: JSON.stringify(parsedConfig, null, 2),
   };
-  return JSON.stringify(json, null, 2);
 };

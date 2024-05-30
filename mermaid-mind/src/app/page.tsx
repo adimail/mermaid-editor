@@ -1,5 +1,5 @@
 // import { CreatePost } from "@/components/create-post";
-// import { getServerAuthSession } from "@/server/auth";
+import { getServerAuthSession } from "@/server/auth";
 // import { api } from "@/trpc/server";
 import MermaidEditor from "../components/EditorComponent";
 import { NavBar } from "@/components/nav/nav";
@@ -11,7 +11,7 @@ import Guide from "@/components/guide";
 
 export default async function Home() {
   // const hello = await api.post.hello({ text: "from tRPC" });
-  // const session = await getServerAuthSession();
+  const session = await getServerAuthSession();
 
   return (
     <main className="mb-20 flex min-h-screen flex-col text-white">

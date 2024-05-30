@@ -247,6 +247,25 @@ style BoiledWater, RemovedTea, MilkDecision fill:#fff,stroke:#f66,stroke-width:2
       E -->|Renders Response| B;
     end
     B -->|Returns Response| A;`,
+
+  pagingSequence: `sequenceDiagram
+    participant User
+    participant OS
+    participant Memory
+    User->>OS: Request page
+    OS->>Memory: Check if page is in memory
+    alt Page is in memory
+        Memory->>OS: Page found
+        OS->>User: Return page
+    else Page is not in memory
+        OS->>Memory: Page fault
+        Memory->>OS: Load page from disk
+        OS->>Memory: Update page table
+        OS->>User: Return page
+    end
+    OS->>Memory: Update page table
+    User->>OS: Continue using page
+    OS->>Memory: Use page`,
 };
 
 const base = `https://raw.githubusercontent.com/adimail/mermaid-editor/main/mermaid-mind/src/components/creations/media/`;
@@ -324,7 +343,12 @@ export const creations = [
   },
   {
     name: "TRCP in NextJS",
-    code: "deadlock",
+    code: "trcp",
     imageSrc: `${base}trcp.png`,
+  },
+  {
+    name: "Paging Algorithm",
+    code: "pagingSequence",
+    imageSrc: `${base}pagingSequence.png`,
   },
 ];

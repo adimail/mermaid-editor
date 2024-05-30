@@ -24,6 +24,9 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
     GOOGLE_GENERATIVE_AI_API_KEY: z.string(),
+    MONGODB_URI: z.string(),
+    MONGODB_DATABASE: z.string(),
+    MONGODB_COLLECTION: z.string(),
   },
 
   /**
@@ -46,6 +49,9 @@ export const env = createEnv({
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     GOOGLE_GENERATIVE_AI_API_KEY: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+    MONGODB_URI: process.env.MONGODB_URI,
+    MONGODB_DATABASE: process.env.MONGODB_DATABASE,
+    MONGODB_COLLECTION: process.env.MONGODB_COLLECTION,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

@@ -9,7 +9,7 @@ const siteConfig = {
   name: "Mermaid Mind AI",
   description:
     "Create flowcharts, sequence diagrams and more with mermaid js and AI",
-  url: "https://localhost:3000/new",
+  url: "https://mermaid-mind.vercel.app/new",
 };
 
 export const metadata: Metadata = {
@@ -47,7 +47,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body className="bg-slate-900">
+      <body>
         <AppContextProvider>
           <TRPCReactProvider>{children}</TRPCReactProvider>
         </AppContextProvider>
