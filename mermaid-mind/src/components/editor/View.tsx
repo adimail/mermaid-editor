@@ -109,26 +109,17 @@ const View = () => {
   };
 
   useEffect(() => {
-    renderDiagram(validateCode, validateConfig);
+    if (typeof window !== "undefined") {
+      renderDiagram(validateCode, validateConfig);
+    }
   }, [validateCode, validateConfig, panZoom]);
 
   useEffect(() => {
-    if (autoSync || updateDiagram) {
+    if (typeof window !== "undefined" && (autoSync || updateDiagram)) {
       setValidateCodeAndConfig(debounceCode, debounceConfig);
       if (updateDiagram) setUpdateDiagram(false);
     }
   }, [debounceCode, debounceConfig, autoSync, updateDiagram]);
-
-  const timer = useRef<number>();
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (panZoom && pzoom.current) {
-        if (timer.current) clearTimeout(timer.current);
-        timer.current = undefined;
-      }
-    });
-  }, []);
 
   return (
     <Box ref={view} component="div" sx={{ height: "100%" }}>

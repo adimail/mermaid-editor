@@ -1,5 +1,4 @@
-import View from "./View";
-import FullScreen from "./FullScreen";
+import dynamic from "next/dynamic";
 import {
   AppBar,
   Box,
@@ -10,7 +9,6 @@ import {
   Button,
   IconButton,
 } from "@mui/material";
-
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import CodeRoundedIcon from "@mui/icons-material/CodeRounded";
 import ImageOutlinedIcon from "@mui/icons-material/ImageOutlined";
@@ -20,6 +18,9 @@ import { useState } from "react";
 import { useStore } from "@/store";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import { CloudSaveModal } from "../modals";
+
+const View = dynamic(() => import("./View"), { ssr: false });
+const FullScreen = dynamic(() => import("./FullScreen"), { ssr: false });
 
 const RightContainer = () => {
   const panZoom = useStore.use.panZoom();
@@ -113,7 +114,7 @@ const ExportMenu = () => {
         </Button>
         <FaCloudUploadAlt
           size={24}
-          className="cursor-pointer hover:scale-105 hover:text-gray-400"
+          className="cursor-pointer hover:scale-105 hover:text-gray-500"
           onClick={handleModalOpen}
         />
       </div>
