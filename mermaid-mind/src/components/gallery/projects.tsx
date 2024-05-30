@@ -10,6 +10,7 @@ import { calculateTimeDifference } from "@/utils/utils";
 import { Boxes } from "@/components/ui/background-boxes";
 import { Session } from "next-auth";
 import { useToast } from "@/components/ui/use-toast";
+import { signIn } from "next-auth/react";
 
 interface ResultsProps {
   session: Session | null;
@@ -61,26 +62,26 @@ export default function Results({ session }: ResultsProps) {
     let url = `/api/projects`;
     if (session) {
       url = `/api/projects?userID=${session?.user.id}`;
+      fetch(url)
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          if (data && Array.isArray(data.diagrams)) {
+            setNewGenerations(data.diagrams);
+          } else {
+            console.error("Expected an array of diagrams but received:", data);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching new generations:", error);
+          setLoading(false);
+        });
     }
-    fetch(url)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data && Array.isArray(data.diagrams)) {
-          setNewGenerations(data.diagrams);
-        } else {
-          console.error("Expected an array of diagrams but received:", data);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching new generations:", error);
-        setLoading(false);
-      });
   }, [session]);
 
   useEffect(() => {
@@ -122,22 +123,32 @@ export default function Results({ session }: ResultsProps) {
               Mermaid <span className="text-[hsl(280,100%,70%)]">Mind</span>
             </Link>
           </div>
-          <div className="z-50 flex flex-col items-center">
-            <Avatar className="h-24 w-24 border-4 border-gray-200 dark:border-gray-800">
-              <AvatarImage
-                alt="Mermaid Mind User"
-                src={session?.user.image ?? ""}
-              />
-              <AvatarFallback>JP</AvatarFallback>
-            </Avatar>
-            <h1 className="mt-4 text-3xl font-bold text-white">
-              {session?.user.name}
-            </h1>
-            <h1 className="text-md mt-2 font-bold text-white">
-              {!loading &&
-                `Created ${newGenerations.length} diagram${newGenerations.length > 1 || newGenerations.length === 0 ? `s` : ``}`}
-            </h1>
-          </div>
+          {session ? (
+            <div className="z-50 flex flex-col items-center">
+              <Avatar className="h-24 w-24 border-4 border-gray-200 dark:border-gray-800">
+                <AvatarImage
+                  alt="Mermaid Mind User"
+                  src={session?.user.image ?? ""}
+                />
+                <AvatarFallback>JP</AvatarFallback>
+              </Avatar>
+              <h1 className="mt-4 text-3xl font-bold text-white">
+                {session?.user.name}
+              </h1>
+              <h1 className="text-md mt-2 font-bold text-white">
+                {!loading &&
+                  `Created ${newGenerations.length} diagram${newGenerations.length > 1 || newGenerations.length === 0 ? `s` : ``}`}
+              </h1>
+            </div>
+          ) : (
+            <div className=" cursor-pointer" onClick={() => signIn("google")}>
+              <div className="flex justify-center text-center">
+                <div className="rounded-full bg-white px-5 py-2 text-black">
+                  <span>Log in</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="container mt-12">

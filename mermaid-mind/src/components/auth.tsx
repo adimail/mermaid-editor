@@ -83,10 +83,7 @@ export default function UserAuth({ session }: SessionProps) {
   }
 
   return (
-    <div
-      className=" cursor-pointer"
-      onClick={() => signIn("google", { callbackUrl: "/" })}
-    >
+    <div className=" cursor-pointer" onClick={() => signIn("google")}>
       <div className="flex justify-center text-center">
         <div className="rounded-full bg-white px-5 py-2 text-black">
           <span>Log in</span>
