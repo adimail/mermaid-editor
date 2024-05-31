@@ -78,40 +78,62 @@ async function runChat(prompt: string): Promise<string> {
       <exammple 1>
       RAG explanation
 
-      graph TD;
+      flowchart TD
         subgraph Input_Data
-            A[Input Data] -->|Preprocessed| B[Graph Structure];
+            A[Input Data] -->|Preprocessed| B[Graph Structure]
         end
+
         subgraph Graph_Structure
-            B -->|Node Features| C[Node Embeddings];
-            B -->|Edge Features| D[Edge Embeddings];
+            B -->|Node Features| C[Node Embeddings]
+            B -->|Edge Features| D[Edge Embeddings]
         end
+
         subgraph Model
-            C -->|Node Embeddings| E[Node Attention];
-            D -->|Edge Embeddings| F[Edge Attention];
-            E -->|Aggregated Information| G[Graph Attention];
-            G -->|Update Node Representations| H[Node Update];
-            H -->|New Node Representations| E;
+            C -->|Node Embeddings| E[Node Attention]
+            D -->|Edge Embeddings| F[Edge Attention]
+            E -->|Aggregated Information| G[Graph Attention]
+            G -->|Update Node Representations| H[Node Update]
+            H -->|New Node Representations| E
         end
+
         subgraph Output
-            H -->|Final Node Representations| I[Output];
+            H -->|Final Node Representations| I[Output]
         end
+
+        %% Styling
+        classDef stadium fill:#fc9,stroke:#333,stroke-width:2px;
+        classDef subroutine fill:#cf6,stroke:#333,stroke-width:2px;
+
+        class A,B,C,D,H stadium;
+        class E,F,G,I subroutine;
+
 
         <example 2>
         GraphQL
 
-        graph TD;
+        flowchart TD
           subgraph Client_Application
-              A[Client Application] -->|Sends GraphQL Query| B[GraphQL Server];
+              A[Client Application] -->|Sends GraphQL Query| B[GraphQL Server]
           end
+
           subgraph GraphQL_Server
-              B -->|Receives Query| C[Schema];
-              C -->|Validates and Parses Query| D[Resolver Functions];
-              D -->|Fetches Data| E[Data Sources];
-              D -->|Formats Response| B;
-              E -->|Returns Data| D;
+              B -->|Receives Query| C[Schema]
+              C -->|Validates and Parses Query| D[Resolver Functions]
+              D -->|Fetches Data| E[Data Sources]
+              D -->|Formats Response| B
+              E -->|Returns Data| D
           end
-          B -->|Returns Response| A;
+
+          B -->|Returns Response| A
+
+          %% Styling
+          classDef stadium fill:#f9c,stroke:#333,stroke-width:2px;
+          classDef subroutine fill:#6cf,stroke:#333,stroke-width:2px;
+
+          class A,B,E stadium;
+          class C,D subroutine;
+
+    Make diagrams following a similar structure and styling pattern to the abouve, with distinct colors and clear subgraphs for better organization and readability.
 
     Here is the user query, generate a similar mermaid graph for the query:
     `;

@@ -78,22 +78,30 @@ export const samples: Record<string, string> = {
     H --> M(End);
     L --> M;
     K --> D;`,
-  biryani: `graph TD
+  boundedbuffer: `flowchart TD
+    subgraph Bounded_Buffer_Problem
+        A[Bounded Buffer Problem] -->|Producer| B[Producer Process]
+        A -->|Consumer| C[Consumer Process]
+    end
 
-Start((Start)) --> Prepare[Prepare Ingredients]
-Prepare --> Marinate[Marinate Meat\nand Soak Rice]
-Marinate --> Cook[<span style="color:green">Cook Meat\nand Rice Separately</span>]
-Cook --> Spices[<span style="color:green">Cook Spices</span>]
-Spices --> Layer[<span style="color:green">Layer Cooked Meat\nand Rice</span>]
-Layer --> Flavorings[<span style="color:green">Add Flavorings\nand Herbs</span>]
-Flavorings --> CookLow[<span style="color:green">Cook on Low Heat</span>]
-CookLow --> Rest[<span style="color:green">Let Biryani Rest</span>]
-Rest --> End((End))
-Cook -.-> Spices
-Spices -.-> Layer
-Layer -.-> Flavorings
-Flavorings -.-> CookLow
-CookLow -.-> Rest
+    subgraph Producer_Process
+        B -->|Produces Data| D[Data Item]
+        D -->|Insert into Buffer| E[Bounded Buffer]
+    end
+
+    subgraph Consumer_Process
+        C -->|Check for Data| E
+        E -->|Remove Data| F[Data Item]
+        F -->|Consume Data| C
+    end
+
+    %% Styling
+    classDef stadium fill:#fc9,stroke:#333,stroke-width:2px;
+    classDef subroutine fill:#cf6,stroke:#333,stroke-width:2px;
+
+    class A,B,C,D,F stadium;
+    class E subroutine;
+
 `,
   tea: `graph TD
 
@@ -292,9 +300,9 @@ export const creations = [
     imageSrc: `${base}graphql.png`,
   },
   {
-    name: "How to make Biryani",
-    code: "biryani",
-    imageSrc: `${base}biryani.png`,
+    name: "Bounded buffer problem",
+    code: "boundedbuffer",
+    imageSrc: `${base}boundedbuffer.png`,
   },
   {
     name: "how to make Tea",
