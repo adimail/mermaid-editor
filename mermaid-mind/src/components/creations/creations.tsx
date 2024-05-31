@@ -47,27 +47,20 @@ export default function Creations() {
       <div className="container grid gap-6 px-4 md:px-6">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              onHoverStart={() => setIsHovered(true)}
-              onHoverEnd={() => setIsHovered(false)}
+            <Link
+              className="cursor-pointer text-3xl font-bold tracking-tighter text-gray-800 sm:text-4xl md:text-5xl"
+              href="/gallery"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
             >
-              <Link
-                href={"/gallery"}
-                className="text-3xl font-bold tracking-tighter text-gray-800 sm:text-4xl md:text-5xl"
-              >
-                {isHovered ? (
-                  "Gallery"
-                ) : (
-                  <span className="flex w-full items-center justify-center gap-2">
-                    Creations <FaExternalLinkAlt size={15} />
-                  </span>
-                )}
-              </Link>
-            </motion.div>
+              {isHovered ? (
+                "Gallery"
+              ) : (
+                <span className="flex w-full items-center justify-center gap-2">
+                  Creations <FaExternalLinkAlt size={15} />
+                </span>
+              )}
+            </Link>
 
             <p className="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               Gallery of MermaidJS diagrams

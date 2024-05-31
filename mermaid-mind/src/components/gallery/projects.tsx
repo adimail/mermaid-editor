@@ -1,37 +1,18 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { TabsTrigger, TabsList, TabsContent, Tabs } from "@/components/ui/tabs";
 import Link from "next/link";
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { render } from "@/utils/mermaid";
 import { calculateTimeDifference } from "@/utils/utils";
 import { Boxes } from "@/components/ui/background-boxes";
-import { Session } from "next-auth";
 import { useToast } from "@/components/ui/use-toast";
 import { signIn } from "next-auth/react";
+import { Project, DiagramHtml, SessionProps } from "@/types/types";
+import { parseMermaidString } from "@/utils/utils";
 
-interface ResultsProps {
-  session: Session | null;
-}
-
-interface Project {
-  _id: string;
-  userName: string;
-  userProfile: string;
-  title: string;
-  description: string;
-  code: string;
-  config: string;
-  public: boolean;
-  anonymous: boolean;
-  created: string;
-}
-
-type DiagramHtml = Record<string, string>;
-
-export default function Results({ session }: ResultsProps) {
+export default function Results({ session }: SessionProps) {
   const [newGenerations, setNewGenerations] = useState<Project[]>([]);
   const [diagramHtml, setDiagramHtml] = useState<DiagramHtml>({});
   const [loading, setLoading] = useState(true);
@@ -49,13 +30,6 @@ export default function Results({ session }: ResultsProps) {
       .catch((err) => {
         console.error("Failed to copy: ", err);
       });
-  };
-
-  const parseMermaidString = (input: string): string => {
-    if (input.startsWith('"') && input.endsWith('"')) {
-      input = input.slice(1, -1);
-    }
-    return input.replace(/\\n/g, "\n");
   };
 
   useEffect(() => {
@@ -110,9 +84,9 @@ export default function Results({ session }: ResultsProps) {
   }, [newGenerations]);
 
   return (
-    <section className="w-full">
+    <section className="mb-20 w-full">
       <div className="">
-        <div className="relative flex h-96 w-full flex-col items-center justify-center overflow-hidden bg-slate-900">
+        <div className="relative flex h-96 w-full cursor-cell flex-col items-center justify-center overflow-hidden bg-slate-900">
           <div className="pointer-events-none absolute inset-0 z-20 h-full w-full bg-slate-900 [mask-image:radial-gradient(transparent,white)]" />
           <Boxes />
           <div className="absolute left-5 top-5 z-50 flex items-center gap-4">
@@ -123,9 +97,17 @@ export default function Results({ session }: ResultsProps) {
               Mermaid <span className="text-[hsl(280,100%,70%)]">Mind</span>
             </Link>
           </div>
+          <div className="absolute right-5 top-5 z-50 flex items-center gap-4">
+            <Link
+              href="/gallery"
+              className="py-1 text-lg tracking-tight text-white hover:scale-105"
+            >
+              Public Gallary
+            </Link>
+          </div>
           {session ? (
             <div className="z-50 flex flex-col items-center">
-              <Avatar className="h-24 w-24 border-4 border-gray-200 dark:border-gray-800">
+              <Avatar className="cursor:pointer h-24 w-24 border-4 border-gray-200 dark:border-gray-800">
                 <AvatarImage
                   alt="Mermaid Mind User"
                   src={session?.user.image ?? ""}
@@ -151,65 +133,57 @@ export default function Results({ session }: ResultsProps) {
           )}
         </div>
 
-        <div className="container mt-12">
-          <Tabs
-            className="w-full items-center justify-center"
-            defaultValue="new"
-          >
-            <TabsContent value="new">
-              <div>
-                {loading ? (
-                  <div className="flex h-64 items-center justify-center">
-                    Loading...
-                  </div>
-                ) : newGenerations.length > 0 ? (
-                  <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {newGenerations.map((diagram) => (
-                      <Card
-                        key={diagram._id}
-                        onClick={() => handleClick(diagram)}
-                        className="group relative cursor-pointer overflow-hidden rounded-3xl border-2 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl"
-                      >
-                        <div
-                          className=" h-64 w-full overflow-hidden"
-                          style={{ aspectRatio: "500/400" }}
-                          dangerouslySetInnerHTML={{
-                            __html:
-                              diagramHtml[diagram._id] ?? "<p>Loading...</p>",
-                          }}
-                        />
-                        <div className="h-full bg-slate-500 p-4 text-white">
-                          <h3 className="truncate text-xl font-bold">
-                            {diagram.title}
-                          </h3>
-                          <p className="absolute right-4 top-4 z-20 m-0 w-fit truncate rounded-full bg-slate-700 bg-opacity-75 px-2 text-gray-100">
-                            {calculateTimeDifference(diagram.created)}
-                          </p>
-                        </div>
-                      </Card>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex h-32 flex-col items-center justify-center">
-                    <div className="space-y-4 text-center">
-                      <h2 className="text-2xl font-bold">
-                        You have no saved projects
-                      </h2>
-                      <p className="text-gray-500">
-                        Your saved projects will be seen here.
+        <div className="container mt-12 w-full items-center justify-center">
+          <div>
+            {loading ? (
+              <div className="flex h-64 items-center justify-center">
+                Loading...
+              </div>
+            ) : newGenerations.length > 0 ? (
+              <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                {newGenerations.map((diagram) => (
+                  <Card
+                    key={diagram._id}
+                    onClick={() => handleClick(diagram)}
+                    className="group relative cursor-pointer overflow-hidden rounded-3xl border-2 shadow-lg transition-transform duration-300 ease-in-out hover:-translate-y-2 hover:shadow-xl"
+                  >
+                    <div
+                      className=" h-64 w-full overflow-hidden"
+                      style={{ aspectRatio: "500/400" }}
+                      dangerouslySetInnerHTML={{
+                        __html: diagramHtml[diagram._id] ?? "<p>Loading...</p>",
+                      }}
+                    />
+                    <div className="h-full bg-slate-500 p-4 text-white">
+                      <h3 className="truncate text-xl font-bold">
+                        {diagram.title}
+                      </h3>
+                      <p className="absolute right-4 top-4 z-20 m-0 w-fit truncate rounded-full bg-slate-700 bg-opacity-75 px-2 text-gray-100">
+                        {calculateTimeDifference(diagram.created)}
                       </p>
                     </div>
-                    <Link
-                      className="mt-8 rounded-full bg-gray-900 px-6 py-3 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
-                      href="/"
-                    >
-                      Home
-                    </Link>
-                  </div>
-                )}
+                  </Card>
+                ))}
               </div>
-            </TabsContent>
-          </Tabs>
+            ) : (
+              <div className="flex h-32 flex-col items-center justify-center">
+                <div className="space-y-4 text-center">
+                  <h2 className="text-2xl font-bold">
+                    You have no saved projects
+                  </h2>
+                  <p className="text-gray-500">
+                    Your saved projects will be seen here.
+                  </p>
+                </div>
+                <Link
+                  className="mt-8 rounded-full bg-gray-900 px-6 py-3 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-50/90 dark:focus-visible:ring-gray-300"
+                  href="/"
+                >
+                  Home
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </section>

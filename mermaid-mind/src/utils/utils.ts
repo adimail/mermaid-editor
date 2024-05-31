@@ -137,7 +137,7 @@ export const calculateTimeDifference = (createdDate: string) => {
     if (differenceInDays === 0) {
       return "created today";
     } else if (differenceInDays < 30) {
-      return `created ${differenceInDays} days ago`;
+      return `created ${differenceInDays} day${differenceInDays > 1 || differenceInDays === 0 ? `s` : ``} ago `;
     } else if (differenceInDays < 365) {
       const months = Math.floor(differenceInDays / 30);
       return `created ${months} ${months === 1 ? "month" : "months"} ago`;
@@ -146,4 +146,13 @@ export const calculateTimeDifference = (createdDate: string) => {
       return `created ${years} ${years === 1 ? "year" : "years"} ago`;
     }
   }
+};
+
+export const parseMermaidString = (input: string): string => {
+  if (input.startsWith('"') && input.endsWith('"')) {
+    input = input.slice(1, -1);
+  }
+
+  const output = input.replace(/\\n/g, "\n");
+  return output;
 };

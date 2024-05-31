@@ -24,7 +24,7 @@ export const metadata: Metadata = {
       url: "https://adimail.github.io",
     },
   ],
-  creator: "Hosteze",
+  creator: "Aditya Godse",
   openGraph: {
     type: "website",
     locale: "en_IN",

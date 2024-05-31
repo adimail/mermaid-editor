@@ -16,6 +16,9 @@ import { useSession } from "next-auth/react";
 import { getJsonData } from "@/store";
 import { useToast } from "@/components/ui/use-toast";
 
+const MAX_TITLE_LENGTH = 50;
+const MAX_DESC_LENGTH = 500;
+
 interface CloudSaveModalProps {
   open: boolean;
   onClose: () => void;
@@ -102,6 +105,8 @@ export const CloudSaveModal: React.FC<CloudSaveModalProps> = ({
               required
               value={projectTitle}
               onChange={(e) => setProjectTitle(e.target.value)}
+              inputProps={{ maxLength: MAX_TITLE_LENGTH }}
+              helperText={`${projectTitle.length}/${MAX_TITLE_LENGTH} characters`}
             />
             <TextField
               margin="dense"
@@ -112,6 +117,8 @@ export const CloudSaveModal: React.FC<CloudSaveModalProps> = ({
               rows={4}
               value={projectDescription}
               onChange={(e) => setProjectDescription(e.target.value)}
+              inputProps={{ maxLength: MAX_DESC_LENGTH }}
+              helperText={`${projectDescription.length}/${MAX_DESC_LENGTH} characters`}
             />
 
             <FormControlLabel
