@@ -21,7 +21,7 @@ export default function ChatBar() {
   const [showLength, setShowLength] = useState(false);
   const MaxLength = 2500;
 
-  const mutation = api.post.getMermaidDiagram.useMutation({
+  const mutation = api.action.getMermaidDiagram.useMutation({
     onSuccess: (diagram) => {
       console.log("Diagram received:", diagram);
       setMessage("");
