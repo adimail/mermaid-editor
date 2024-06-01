@@ -1,6 +1,6 @@
 "use client";
 
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +19,7 @@ import Link from "next/link";
 import { FaUser, FaFolderOpen } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { RiMenu4Fill } from "react-icons/ri";
+import { RiMenuFill } from "react-icons/ri";
 import { Session } from "next-auth";
 
 interface SessionProps {
@@ -85,7 +85,7 @@ export default function UserAuth({ session }: SessionProps) {
   return (
     <div className=" cursor-pointer" onClick={() => signIn("google")}>
       <div className="flex justify-center text-center">
-        <div className="rounded-full bg-white px-5 py-2 text-black">
+        <div className="rounded-full bg-slate-300 px-5 py-2 text-black">
           <span>Log in</span>
         </div>
       </div>
@@ -97,7 +97,7 @@ export function SheetComponent({ session }: SessionProps) {
   return (
     <Sheet>
       <SheetTrigger>
-        <RiMenu4Fill size={27} />
+        <RiMenuFill size={27} />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -108,38 +108,44 @@ export function SheetComponent({ session }: SessionProps) {
               </Link>
             </div>
           </SheetTitle>
-          <SheetDescription>
-            <div className="flex flex-col items-start justify-start">
-              <ul className="mb-10 mt-10 flex flex-col gap-3 text-left">
+          <SheetDescription></SheetDescription>
+          <div className="flex flex-col items-start justify-start text-sm">
+            <ul className="mb-5 mt-10 flex flex-col gap-3 text-left text-gray-700">
+              <li>
+                <Link href="/gallery">Public Gallery</Link>
+              </li>
+              {session && (
                 <li>
-                  <Link href="/generate">Generate with AI</Link>
+                  <Link href="/projects">My Projects</Link>
                 </li>
-                <li>
-                  <Link href="/projects">Saved Projects</Link>
-                </li>
-                <li>
-                  <Link href="https://adimail.github.io/posts/mermaid-js/">
-                    Mermaid JS
-                  </Link>
-                </li>
-              </ul>
-              <h2 className="mt-6 text-xl font-bold">About</h2>
-              <ul className="mb-10 mt-4 flex flex-col gap-3 text-left ">
-                <li>
-                  <Link href="https://adimail.github.io">Developer</Link>
-                </li>
-                <li>
-                  <Link href="https://github.com/adimail/mermaid-editor">
-                    Source code
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/new">Coming Soon</Link>
-                </li>
-              </ul>
-              <UserAuth session={session} />
-            </div>
-          </SheetDescription>
+              )}
+              <li>
+                <Link href="https://adimail.github.io/posts/mermaid-js/">
+                  Mermaid JS
+                </Link>
+              </li>
+              <li>
+                <Link href="/generate">Generate with AI</Link>
+              </li>
+            </ul>
+            <h2 className="mt-6 text-xl font-bold text-gray-900">
+              <Link href={"https://youtu.be/RNT67PuKcgY"}>About</Link>
+            </h2>
+            <ul className="mb-10 mt-4 flex flex-col gap-3 text-left text-gray-700">
+              <li>
+                <Link href="https://adimail.github.io">Developer</Link>
+              </li>
+              <li>
+                <Link href="https://github.com/adimail/mermaid-editor">
+                  Source code
+                </Link>
+              </li>
+              <li>
+                <Link href="/new">Updates</Link>
+              </li>
+            </ul>
+            <UserAuth session={session} />
+          </div>
         </SheetHeader>
       </SheetContent>
     </Sheet>

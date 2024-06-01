@@ -117,13 +117,16 @@ export default function Results({ session }: SessionProps) {
               <h1 className="mt-4 text-3xl font-bold text-white">
                 {session?.user.name}
               </h1>
-              <h1 className="text-md mt-2 font-bold text-white">
+              <h1 className="mt-2 text-2xl font-bold text-white">
                 {!loading &&
                   `Created ${newGenerations.length} diagram${newGenerations.length > 1 || newGenerations.length === 0 ? `s` : ``}`}
               </h1>
             </div>
           ) : (
-            <div className=" cursor-pointer" onClick={() => signIn("google")}>
+            <div
+              className="z-50 cursor-pointer"
+              onClick={() => signIn("google")}
+            >
               <div className="flex justify-center text-center">
                 <div className="rounded-full bg-white px-5 py-2 text-black">
                   <span>Log in</span>
@@ -135,7 +138,7 @@ export default function Results({ session }: SessionProps) {
 
         <div className="container mt-12 w-full items-center justify-center">
           <div>
-            {loading ? (
+            {session && loading ? (
               <div className="flex h-64 items-center justify-center">
                 Loading...
               </div>

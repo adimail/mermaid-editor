@@ -86,7 +86,7 @@ export const Menu = ({
         <div className="hidden md:block">
           <UserAuth session={session} />
         </div>
-        <div className="block md:hidden">
+        <div className="flex items-center justify-center md:hidden">
           <SheetComponent session={session} />
         </div>
       </div>

@@ -38,20 +38,6 @@ export default function Guide() {
             </a>
             .
           </p>
-          <div className="hidden md:block">
-            <pre className="mt-4 rounded-lg bg-gray-800 p-4 text-xs text-white md:text-sm">
-              {`
-                graph TD;
-                A-->B;
-                A-->C;
-                B-->D;
-                C-->D;
-                `}
-            </pre>
-            <p className="mt-4 text-sm md:text-lg">
-              You can edit this code to generate your own diagrams.
-            </p>
-          </div>
         </div>
       ),
     },
