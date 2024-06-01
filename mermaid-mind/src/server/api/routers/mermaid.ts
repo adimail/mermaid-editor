@@ -133,7 +133,7 @@ async function runChat(prompt: string): Promise<string> {
           class A,B,E stadium;
           class C,D subroutine;
 
-    Make diagrams following a similar structure and styling pattern to the abouve, with distinct colors and clear subgraphs for better organization and readability.
+    Make diagrams following a similar structure and styling pattern to the abouve, with distinct colors and clear subgraphs for better organization and readability. Use different colors I provided in the example.
 
     Here is the user query, generate a similar mermaid graph for the query:
     `;

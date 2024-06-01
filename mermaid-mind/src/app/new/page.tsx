@@ -27,6 +27,8 @@ export default function Projects() {
           <li>Save projects to cloud</li>
           <li>Generate charts and markdown from images</li>
           <li>High quality Image download</li>
+          <li>large context UML diagrams from source code</li>
+          <li>PlantUML diagrams from large codebases</li>
         </ul>
       </div>
     </AuroraBackground>
