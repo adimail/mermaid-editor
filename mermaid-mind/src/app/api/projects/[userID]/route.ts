@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { env } from "@/env";
 
@@ -14,7 +14,12 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function GET() {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { userID: string } },
+) {
+  const { userID } = params;
+
   try {
     await client.connect();
     console.log("Connected to MongoDB");
@@ -22,7 +27,10 @@ export async function GET() {
     const database = client.db(mongodb_database);
     const collection = database.collection(mongodb_collection);
 
-    const diagrams = await collection.find().limit(50).toArray();
+    const diagrams = await collection
+      .find({ userID: userID })
+      .limit(50)
+      .toArray();
 
     return NextResponse.json({ diagrams }, { status: 200 });
   } catch (error) {

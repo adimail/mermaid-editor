@@ -23,6 +23,9 @@
     "plugins": [{ "name": "next" }],
     "incremental": true,
 
+    /* Types */
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
@@ -36,7 +39,8 @@
     "**/*.tsx",
     "**/*.cjs",
     "**/*.js",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/types/global.d.ts"
   ],
   "exclude": ["node_modules"]
 }

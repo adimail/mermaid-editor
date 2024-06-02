@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { env } from "@/env";
 
@@ -14,22 +14,27 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function GET() {
+export async function POST(request: NextRequest) {
   try {
+    const requestData = await request.json();
+
     await client.connect();
     console.log("Connected to MongoDB");
 
     const database = client.db(mongodb_database);
     const collection = database.collection(mongodb_collection);
 
-    const diagrams = await collection.find().limit(50).toArray();
+    await collection.insertOne(requestData);
 
-    return NextResponse.json({ diagrams }, { status: 200 });
+    return NextResponse.json(
+      { message: "Data inserted successfully" },
+      { status: 200 },
+    );
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
 
     return NextResponse.json(
-      { message: "Error connecting to MongoDB" },
+      { message: "Error inserting data into MongoDB" },
       { status: 500 },
     );
   } finally {

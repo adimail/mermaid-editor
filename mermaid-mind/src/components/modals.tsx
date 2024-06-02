@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { getJsonData } from "@/store";
-import { useToast } from "@/components/ui/use-toast";
 
 const MAX_TITLE_LENGTH = 50;
 const MAX_DESC_LENGTH = 500;
@@ -34,7 +33,6 @@ export const CloudSaveModal: React.FC<CloudSaveModalProps> = ({
   const [stayAnonymous, setStayAnonymous] = useState(false);
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
-  const { toast } = useToast();
 
   const isFormValid = () => {
     return (
@@ -58,7 +56,7 @@ export const CloudSaveModal: React.FC<CloudSaveModalProps> = ({
       created: new Date().toLocaleDateString(),
     };
 
-    fetch("/api/projects", {
+    fetch("/api/projects/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,19 +66,9 @@ export const CloudSaveModal: React.FC<CloudSaveModalProps> = ({
       .then((response) => {
         if (response.ok) {
           console.log("Project saved successfully");
-          toast({
-            title: "Success",
-            description: "Project saved sucessfully",
-            duration: 5000,
-          });
           onClose();
         } else {
           console.error("Error saving project");
-          toast({
-            title: "Success",
-            description: "Error saving project",
-            duration: 5000,
-          });
         }
       })
       .catch((error) => {

@@ -73,10 +73,13 @@ export const Menu = ({
   return (
     <nav
       onMouseLeave={() => setActive(null)}
-      className="boder relative mb-10 flex items-center justify-between space-x-4 border-transparent bg-slate-800 px-3 py-4 shadow-input md:px-8"
+      className="boder relative flex items-center justify-between space-x-4 border-transparent bg-slate-800 px-3 py-4 shadow-input md:px-8"
     >
       <div className="flex items-center gap-4">
-        <Link href="/" className="text-2xl font-extrabold tracking-tight">
+        <Link
+          href="/"
+          className="text-2xl font-extrabold tracking-tight text-white"
+        >
           Mermaid <span className="text-[hsl(280,100%,70%)]">Mind</span>
         </Link>
       </div>

@@ -97,7 +97,7 @@ export function SheetComponent({ session }: SessionProps) {
   return (
     <Sheet>
       <SheetTrigger>
-        <RiMenuFill size={27} />
+        <RiMenuFill color="white" size={27} />
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>

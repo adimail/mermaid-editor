@@ -6,10 +6,10 @@ import { TRPCReactProvider } from "@/trpc/react";
 import AppContextProvider from "@/providers/providers";
 
 const siteConfig = {
-  name: "Your projects",
+  name: "Share mermaid diagrams and brainstorm visually with anyone, anywhere",
   description:
-    "Create flowcharts, sequence diagrams and more with mermaid js and AI",
-  url: "https://mermaid-mind.vercel.app/projects",
+    "Diagrams made easy to share! Instantly share your creations with anyone, no logins required.",
+  url: "https://mermaid-mind.vercel.app/gallery",
 };
 
 export const metadata: Metadata = {

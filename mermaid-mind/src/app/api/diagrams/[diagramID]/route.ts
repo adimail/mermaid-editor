@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { NextResponse, NextRequest } from "next/server";
+import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 import { env } from "@/env";
 
 const uri = env.MONGODB_URI;
@@ -14,7 +14,12 @@ const client = new MongoClient(uri, {
   },
 });
 
-export async function GET() {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { diagramID: string } },
+) {
+  const { diagramID } = params;
+
   try {
     await client.connect();
     console.log("Connected to MongoDB");
@@ -22,9 +27,14 @@ export async function GET() {
     const database = client.db(mongodb_database);
     const collection = database.collection(mongodb_collection);
 
-    const diagrams = await collection.find().limit(50).toArray();
+    const objectId = new ObjectId(diagramID);
 
-    return NextResponse.json({ diagrams }, { status: 200 });
+    const diagram = await collection
+      .find({ _id: objectId })
+      .limit(50)
+      .toArray();
+
+    return NextResponse.json({ diagram }, { status: 200 });
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
 
