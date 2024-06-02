@@ -196,7 +196,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ diagram }) => {
   const copyToClipboard = () => {
     if (diagram) {
       navigator.clipboard
-        .writeText(`https://mermaid-mind.vercel.app/${diagram._id}`)
+        .writeText(`https://mermaid-mind.vercel.app/gallery/${diagram._id}`)
         .then(() => setCopied(true))
         .catch((error) => console.error("Error copying to clipboard:", error));
 
