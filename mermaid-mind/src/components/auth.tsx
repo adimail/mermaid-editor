@@ -136,11 +136,6 @@ export function SheetComponent({ session }: SessionProps) {
                 <Link href="https://adimail.github.io">Developer</Link>
               </li>
               <li>
-                <Link href="https://github.com/adimail/mermaid-editor">
-                  Source code
-                </Link>
-              </li>
-              <li>
                 <Link href="/new">Updates</Link>
               </li>
             </ul>

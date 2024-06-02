@@ -9,7 +9,7 @@ const siteConfig = {
   name: "Public Gallery",
   description:
     "Create flowcharts, sequence diagrams and more with mermaid js and AI",
-  url: "https://mermaid-mind.vercel.app/gallery",
+  url: "https://mermaid-mind.vercel.app",
 };
 
 export const metadata: Metadata = {

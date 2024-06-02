@@ -242,7 +242,7 @@ const CardDetails: React.FC<CardDetailsProps> = ({ diagram }) => {
             <div className="relative flex items-center gap-2">
               <Input
                 type="text"
-                value={`https://mermaid-mind.vercel.app/${diagram._id}`}
+                value={`https://mermaid-mind.vercel.app/gallery/${diagram._id}`}
                 readOnly
               />
               <Button
