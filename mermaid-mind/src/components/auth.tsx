@@ -133,7 +133,7 @@ export function SheetComponent({ session }: SessionProps) {
             </h2>
             <ul className="mb-10 mt-4 flex flex-col gap-3 text-left text-gray-700">
               <li>
-                <Link href="https://adimail.github.io">Developer</Link>
+                <Link href="https://adimail.github.io/about">Developer</Link>
               </li>
               <li>
                 <Link href="/new">Updates</Link>

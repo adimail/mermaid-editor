@@ -106,7 +106,7 @@ const DiagramEditor: React.FC<Props> = ({ diagramID, session }) => {
       <NavBar session={session} />
       <div className="grid w-full grid-cols-1 gap-8 p-4 md:p-8 lg:grid-cols-4">
         <div className="col-span-1 grid gap-6 md:col-span-3">
-          <div className="relative z-50 aspect-[9/16] cursor-grab overflow-hidden rounded-lg border bg-[#bfbfbf] shadow-xl active:cursor-grabbing md:aspect-[15/10]">
+          <div className="relative aspect-[9/16] cursor-grab overflow-hidden rounded-lg border bg-[#bfbfbf] shadow-xl active:cursor-grabbing md:aspect-[15/10]">
             <CodeView code={diagram.code} />
           </div>
           <div className="col-span-1 grid gap-4">
