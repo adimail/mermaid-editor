@@ -3,8 +3,11 @@ import { useDebounce } from "ahooks";
 import { parse, render } from "@/utils/mermaid";
 import svgPanZoom from "svg-pan-zoom";
 import { useStore } from "@/store";
-import { Box } from "@mui/material";
 import { parseMermaidString } from "@/utils/utils";
+
+import dynamic from "next/dynamic";
+import { Box, IconButton } from "@mui/material";
+import { IoMdMove } from "react-icons/io";
 
 interface CodeViewProps {
   code: string;
@@ -15,7 +18,6 @@ const CodeView: React.FC<CodeViewProps> = ({ code }) => {
   const config = useStore.use.config();
   const autoSync = useStore.use.autoSync();
   const updateDiagram = useStore.use.updateDiagram();
-  const panZoom = true;
   const pan = useStore.use.pan?.();
   const zoom = useStore.use.zoom?.();
   const setPanZoom = useStore.use.setPanZoom();
@@ -23,6 +25,12 @@ const CodeView: React.FC<CodeViewProps> = ({ code }) => {
   const setSvg = useStore.use.setSvg();
   const setValidateCodeState = useStore.use.setValidateCode();
   const setValidateConfigState = useStore.use.setValidateConfig();
+  const panZoom = useStore.use.panZoom();
+  const setPanZoomEnable = useStore.use.setPanZoomEnable();
+
+  const togglePanZoom = () => {
+    setPanZoomEnable(!panZoom);
+  };
 
   const container = useRef<HTMLDivElement>(null);
   const view = useRef<HTMLDivElement>(null);
@@ -120,20 +128,30 @@ const CodeView: React.FC<CodeViewProps> = ({ code }) => {
   }, [debounceCode, debounceConfig, autoSync, updateDiagram]);
 
   return (
-    <Box ref={view} component="div" sx={{ height: "100%" }}>
-      {validateCode.startsWith("Syntax error") ? (
-        <Box component="div" sx={{ color: "red", padding: 2 }}>
-          {validateCode}
-        </Box>
-      ) : (
-        <Box
-          id="container"
-          ref={container}
-          component="div"
-          sx={{ height: "100%" }}
-        ></Box>
-      )}
-    </Box>
+    <>
+      <div className="absolute flex w-full items-end justify-end p-4">
+        <IconButton
+          onClick={togglePanZoom}
+          style={{ backgroundColor: panZoom ? "#e0e0e0" : "transparent" }}
+        >
+          <IoMdMove />
+        </IconButton>
+      </div>
+      <Box ref={view} component="div" sx={{ height: "100%" }}>
+        {validateCode.startsWith("Syntax error") ? (
+          <Box component="div" sx={{ color: "red", padding: 2 }}>
+            {validateCode}
+          </Box>
+        ) : (
+          <Box
+            id="container"
+            ref={container}
+            component="div"
+            sx={{ height: "100%" }}
+          ></Box>
+        )}
+      </Box>
+    </>
   );
 };
 

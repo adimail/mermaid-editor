@@ -15,8 +15,7 @@ import { MdOutlineDateRange } from "react-icons/md";
 import { FaRegCopy, FaShare, FaCheck } from "react-icons/fa6";
 import { Session } from "next-auth";
 import { FaExclamationCircle } from "react-icons/fa";
-import { NavBar } from "../nav/nav";
-
+import LoadingComponent from "@/components//loading";
 import MonacoEditor, { OnMount } from "@monaco-editor/react";
 import initEditor from "monaco-mermaid";
 
@@ -78,8 +77,7 @@ const DiagramEditor: React.FC<Props> = ({ diagramID, session }) => {
   if (loading) {
     return (
       <div>
-        <NavBar session={session} />
-        <p className="mt-32 text-center text-2xl">Loading...</p>
+        <LoadingComponent />
       </div>
     );
   }
@@ -87,7 +85,6 @@ const DiagramEditor: React.FC<Props> = ({ diagramID, session }) => {
   if (!diagram) {
     return (
       <>
-        <NavBar session={null} />{" "}
         <div className="flex h-screen flex-col items-center justify-center bg-gradient-to-br from-red-100 to-red-300 text-gray-900">
           <FaExclamationCircle className="mb-4 text-5xl" />
           <div className="text-center">
@@ -103,10 +100,9 @@ const DiagramEditor: React.FC<Props> = ({ diagramID, session }) => {
 
   return (
     <>
-      <NavBar session={session} />
       <div className="grid w-full grid-cols-1 gap-8 p-4 md:p-8 lg:grid-cols-4">
         <div className="col-span-1 grid gap-6 md:col-span-3">
-          <div className="relative aspect-[9/16] cursor-grab overflow-hidden rounded-lg border bg-[#bfbfbf] shadow-xl active:cursor-grabbing md:aspect-[15/10]">
+          <div className="relative aspect-[9/16] cursor-grab overflow-hidden rounded-lg border border-black bg-[#e3e3e3] shadow-xl active:cursor-grabbing md:aspect-[15/10]">
             <CodeView code={diagram.code} />
           </div>
           <div className="col-span-1 grid gap-4">
@@ -145,7 +141,7 @@ const DiagramEditor: React.FC<Props> = ({ diagramID, session }) => {
                 <div>{calculateTimeDifference(diagram.created)}</div>
               </div>
             </div>
-            <div className="grid h-[600px] gap-4 rounded-lg border bg-gray-100 p-4 dark:border-gray-800 dark:bg-gray-800">
+            <div className="grid h-[500px] gap-4 rounded-lg border bg-gray-100 p-4 dark:border-gray-800 dark:bg-gray-800">
               <div className="flex items-center justify-between">
                 <div className="font-medium">Diagram Code</div>
                 {copied ? (
@@ -166,7 +162,7 @@ const DiagramEditor: React.FC<Props> = ({ diagramID, session }) => {
                 )}
               </div>
               <MonacoEditor
-                className="h-[500px]"
+                className="h-[400px]"
                 language={"mermaid"}
                 value={parseMermaidString(diagram.code)}
                 options={{

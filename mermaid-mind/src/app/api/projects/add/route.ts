@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
     const requestData = await request.json();
 
     await client.connect();
-    console.log("Connected to MongoDB");
 
     const database = client.db(mongodb_database);
     const collection = database.collection(mongodb_collection);

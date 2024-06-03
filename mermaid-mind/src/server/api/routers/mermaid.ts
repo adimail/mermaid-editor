@@ -146,7 +146,6 @@ async function runChat(prompt: string): Promise<string> {
 
     const result = await chat.sendMessage(basePrompt + prompt);
     const response = await result.response;
-    console.log("Received response:", response.text);
     return response.text();
   } catch (error) {
     console.error("Error in runChat:", error);

@@ -7,6 +7,7 @@ import { Boxes } from "@/components/ui/background-boxes";
 import { signIn } from "next-auth/react";
 import { Project, SessionProps } from "@/types/types";
 import { DiagramCard } from "../diagram-card";
+import LoadingComponent from "@/components//loading";
 
 export default function Results({ session }: SessionProps) {
   const [newGenerations, setNewGenerations] = useState<Project[]>([]);
@@ -41,7 +42,7 @@ export default function Results({ session }: SessionProps) {
   }, [session]);
 
   return (
-    <section className="mb-20 w-full">
+    <section className="mb-20 min-h-screen w-full">
       <div className="">
         <div className="relative flex h-96 w-full cursor-cell flex-col items-center justify-center overflow-hidden bg-slate-900">
           <div className="pointer-events-none absolute inset-0 z-20 h-full w-full bg-slate-900 [mask-image:radial-gradient(transparent,white)]" />
@@ -95,9 +96,7 @@ export default function Results({ session }: SessionProps) {
 
         <div className="container mt-12 w-full items-center justify-center">
           {session && loading ? (
-            <div className="flex h-64 items-center justify-center">
-              Loading...
-            </div>
+            <LoadingComponent />
           ) : newGenerations.length > 0 ? (
             <DiagramCard diagrams={newGenerations} />
           ) : (

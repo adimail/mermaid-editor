@@ -22,7 +22,6 @@ export async function GET(
 
   try {
     await client.connect();
-    console.log("Connected to MongoDB");
 
     const database = client.db(mongodb_database);
     const collection = database.collection(mongodb_collection);

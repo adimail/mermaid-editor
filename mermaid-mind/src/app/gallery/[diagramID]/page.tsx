@@ -1,6 +1,8 @@
 import DiagramEditor from "@/components/gallery/diagram";
 import { getServerAuthSession } from "@/server/auth";
 import { Metadata } from "next";
+import { NavBar } from "@/components/nav/nav";
+import Footer from "@/components/footer";
 
 export const metadata: Metadata = {
   openGraph: {
@@ -15,5 +17,11 @@ export default async function Page({
 }) {
   const session = await getServerAuthSession();
 
-  return <DiagramEditor diagramID={params.diagramID} session={session} />;
+  return (
+    <div>
+      <NavBar />
+      <DiagramEditor diagramID={params.diagramID} session={session} />
+      <Footer />
+    </div>
+  );
 }

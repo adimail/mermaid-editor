@@ -45,7 +45,7 @@ const features = [
 
 export default function Explore() {
   return (
-    <>
+    <div className="container">
       <div className="flex flex-col items-center justify-center space-y-4 text-center">
         <div className="mt-20 space-y-2">
           <h2 className="text-3xl font-bold tracking-tighter text-gray-800 sm:text-4xl md:text-5xl">
@@ -74,6 +74,6 @@ export default function Explore() {
           </div>
         ))}
       </section>
-    </>
+    </div>
   );
 }

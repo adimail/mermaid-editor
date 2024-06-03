@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import UserAuth from "@/components/auth";
 import { Project, SessionProps } from "@/types/types";
 import { DiagramCard } from "../diagram-card";
+import LoadingComponent from "@/components//loading";
 
 export default function GalleryPage({ session }: SessionProps) {
   const [newGenerations, setNewGenerations] = useState<Project[]>([]);
@@ -62,9 +63,7 @@ export default function GalleryPage({ session }: SessionProps) {
 
         <div className="container mt-12 w-full items-center justify-center">
           {loading ? (
-            <div className="flex h-64 items-center justify-center">
-              Loading...
-            </div>
+            <LoadingComponent />
           ) : (
             <div>
               {newGenerations.length > 0 ? (
