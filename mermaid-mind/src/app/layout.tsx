@@ -1,5 +1,4 @@
 import "@/styles/globals.css";
-
 import type { Metadata } from "next";
 import { TRPCReactProvider } from "@/trpc/react";
 import AppContextProvider from "@/providers/providers";
@@ -35,8 +34,10 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-
     creator: "@adityagodse381",
+  },
+  verification: {
+    google: "KMG06UdtySHOoth8IbmBqMX2SOP6o068WmQjFIvvmYQ",
   },
 };
 

@@ -41,6 +41,14 @@ const features = [
     description:
       "Change your diagram theme from the config panel on the editor",
   },
+  {
+    title: "Share diagrams",
+    description: "Share your diagrams with anyone using mermaid mind links",
+  },
+  {
+    title: "View in Fullscreen",
+    description: "View the generated diagrams in full screen",
+  },
 ];
 
 export default function Explore() {

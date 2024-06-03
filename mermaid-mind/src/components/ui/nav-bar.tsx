@@ -4,10 +4,13 @@ import React, { useState } from "react";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
 import { Session } from "next-auth";
-
 import { motion } from "framer-motion";
 import Image from "next/image";
 import UserAuth, { SheetComponent } from "../auth";
+
+interface SessionProps {
+  session: Session | null;
+}
 
 const transition = {
   type: "spring",
@@ -33,7 +36,7 @@ export const MenuItem = ({
     <div onMouseEnter={() => setActive(item)} className="relative ">
       <motion.p
         transition={{ duration: 0.3 }}
-        className="cursor-pointer rounded-full bg-slate-700 px-5 py-2 text-white hover:opacity-[0.9]"
+        className="cursor-pointer rounded-full bg-none px-2 py-1 text-white hover:opacity-[0.9]"
       >
         {item}
       </motion.p>
@@ -88,7 +91,7 @@ export const Menu = ({
         </Link>
       </div>
 
-      <div className="flex items-center gap-3  md:gap-10">
+      <div className="flex items-center gap-3">
         <div className="hidden gap-4 md:flex">{children}</div>
         <div className="hidden md:block">
           <UserAuth session={session} />
@@ -143,10 +146,6 @@ export const HoveredLink = ({
   );
 };
 
-interface SessionProps {
-  session: Session | null;
-}
-
 export function WideNavBar({ session }: SessionProps) {
   const [active, setActive] = useState<string | null>(null);
 
@@ -176,21 +175,25 @@ export function WideNavBar({ session }: SessionProps) {
               />
             </div>
           </MenuItem>
+          <MenuItem setActive={setActive} active={active} item="Editor">
+            <div className="flex flex-col space-y-4 text-sm">
+              <HoveredLink>
+                <Link href="/gallery">Public gallery</Link>
+              </HoveredLink>
+              <HoveredLink>
+                <Link href="https://adimail.github.io/posts/mermaid-js/">
+                  Learn Mermaid JS
+                </Link>
+              </HoveredLink>
+            </div>
+          </MenuItem>
           <MenuItem setActive={setActive} active={active} item="About">
             <div className="flex flex-col space-y-4 text-sm">
               <HoveredLink>
                 <Link href="https://adimail.github.io/about">Developer</Link>
               </HoveredLink>
               <HoveredLink>
-                <Link href="https://adimail.github.io/posts/mermaid-js/">
-                  Mermaid JS
-                </Link>
-              </HoveredLink>
-              <HoveredLink>
-                <Link href="/gallery">Public gallery</Link>
-              </HoveredLink>
-              <HoveredLink>
-                <Link href={"/new"}>Comming Soon...</Link>
+                <Link href="/about">Site</Link>
               </HoveredLink>
             </div>
           </MenuItem>

@@ -127,16 +127,11 @@ export function SheetComponent({ session }: SessionProps) {
               <li>
                 <Link href="/generate">Generate with AI</Link>
               </li>
-            </ul>
-            <h2 className="mt-6 text-xl font-bold text-gray-900">
-              <Link href={"https://youtu.be/RNT67PuKcgY"}>About</Link>
-            </h2>
-            <ul className="mb-10 mt-4 flex flex-col gap-3 text-left text-gray-700">
               <li>
                 <Link href="https://adimail.github.io/about">Developer</Link>
               </li>
               <li>
-                <Link href="/new">Updates</Link>
+                <Link href="/about">About</Link>
               </li>
             </ul>
             <UserAuth session={session} />

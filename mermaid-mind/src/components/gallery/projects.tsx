@@ -1,49 +1,48 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Boxes } from "@/components/ui/background-boxes";
 import { signIn } from "next-auth/react";
 import { Project, SessionProps } from "@/types/types";
-import DiagramLayout from "../diagram-card";
-import LoadingComponent from "@/components//loading";
+import DiagramLayout, { SkeletonCard } from "../diagram-card";
 
 export default function Results({ session }: SessionProps) {
   const [newGenerations, setNewGenerations] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let url = `/api/projects`;
-    if (session) {
-      url = `/api/projects/${session?.user.id}`;
-      fetch(url)
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          if (data && Array.isArray(data.diagrams)) {
-            const fetchedDiagram = data.diagrams.reverse();
+  const fetchData = useCallback(async () => {
+    if (!session) return;
 
-            setNewGenerations(fetchedDiagram);
-          } else {
-            console.error("Expected an array of diagrams but received:", data);
-          }
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching new generations:", error);
-          setLoading(false);
-        });
+    const url = `/api/projects/${session?.user.id}`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      if (data && Array.isArray(data.diagrams)) {
+        setNewGenerations(data.diagrams.reverse());
+      } else {
+        console.error("Expected an array of diagrams but received:", data);
+      }
+    } catch (error: any) {
+      console.error("Error fetching new generations:", error);
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   }, [session]);
 
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
   return (
     <section className="mb-20 min-h-screen w-full">
-      <div className="">
+      <div>
         <div className="relative flex h-96 w-full cursor-cell flex-col items-center justify-center overflow-hidden bg-slate-900">
           <div className="pointer-events-none absolute inset-0 z-20 h-full w-full bg-slate-900 [mask-image:radial-gradient(transparent,white)]" />
           <Boxes />
@@ -60,7 +59,7 @@ export default function Results({ session }: SessionProps) {
               href="/gallery"
               className="py-1 text-lg tracking-tight text-white hover:scale-105"
             >
-              Public Gallary
+              Public Gallery
             </Link>
           </div>
           {session ? (
@@ -75,9 +74,9 @@ export default function Results({ session }: SessionProps) {
               <h1 className="mt-4 text-3xl font-bold text-white">
                 {session?.user.name}
               </h1>
-              <h1 className="mt-2 text-2xl font-bold text-white">
+              <h1 className="mt-2 text-lg font-bold text-white">
                 {!loading &&
-                  `Created ${newGenerations.length} diagram${newGenerations.length > 1 || newGenerations.length === 0 ? `s` : ``}`}
+                  `Created ${newGenerations.length} diagram${newGenerations.length !== 1 ? "s" : ""}`}
               </h1>
             </div>
           ) : (
@@ -95,8 +94,14 @@ export default function Results({ session }: SessionProps) {
         </div>
 
         <div className="container mt-12 w-full items-center justify-center">
-          {session && loading ? (
-            <LoadingComponent />
+          {loading ? (
+            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {Array.from({ length: 12 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))}
+            </div>
+          ) : error ? (
+            <div className="text-center text-red-500">Error: {error}</div>
           ) : newGenerations.length > 0 ? (
             <DiagramLayout diagrams={newGenerations} />
           ) : (

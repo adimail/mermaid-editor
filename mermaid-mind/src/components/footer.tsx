@@ -18,11 +18,11 @@ export default function Footer() {
           <Link href="/generate" className="hover:underline" prefetch={false}>
             Gemini
           </Link>
+          <Link href="/about" className="hover:underline" prefetch={false}>
+            Blog
+          </Link>
           <Link href="/gallery" className="hover:underline" prefetch={false}>
             Creations
-          </Link>
-          <Link href="/new" className="hover:underline" prefetch={false}>
-            Comming Soon
           </Link>
         </div>
       </div>

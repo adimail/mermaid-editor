@@ -12,12 +12,13 @@ import { Input } from "@/components/ui/input";
 import { FaUser } from "react-icons/fa";
 import { calculateTimeDifference, parseMermaidString } from "@/utils/utils";
 import { MdOutlineDateRange } from "react-icons/md";
-import { FaRegCopy, FaShare, FaCheck } from "react-icons/fa6";
+import { FaRegCopy, FaCheck } from "react-icons/fa6";
 import { Session } from "next-auth";
 import { FaExclamationCircle } from "react-icons/fa";
 import LoadingComponent from "@/components//loading";
 import MonacoEditor, { OnMount } from "@monaco-editor/react";
 import initEditor from "monaco-mermaid";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 const FullScreen = dynamic(() => import("@/components/editor/FullScreen"), {
   ssr: false,
@@ -122,10 +123,10 @@ const DiagramEditor: React.FC<Props> = ({ diagramID, session }) => {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                {/* <Button variant="ghost" size="icon">
-                  <FaShare size={20} />
+                <Button variant="ghost" size="icon">
+                  <MdOutlineFileDownload size={27} />
                   <span className="sr-only">Share</span>
-                </Button> */}
+                </Button>
                 <Button variant="ghost" size="icon">
                   <FullScreen />
                   <span className="sr-only">Full Screen</span>

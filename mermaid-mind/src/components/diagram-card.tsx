@@ -116,4 +116,23 @@ const DiagramLayout: React.FC<CardProps> = ({ diagrams }) => {
   );
 };
 
+export const SkeletonCard: React.FC = () => (
+  <div className="animate-pulse overflow-hidden rounded-3xl border border-gray-300 shadow-md">
+    <div className="h-64 w-full bg-gray-300" />
+    <div className="bg-white p-4">
+      <div className="mb-4 flex items-center gap-3">
+        <div className="h-10 w-10 rounded-full bg-gray-300" />
+        <div className="flex-1 space-y-2">
+          <div className="h-4 w-3/4 rounded bg-gray-300" />
+          <div className="h-3 w-1/2 rounded bg-gray-300" />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="h-4 rounded bg-gray-300" />
+        <div className="h-4 rounded bg-gray-300" />
+      </div>
+    </div>
+  </div>
+);
+
 export default DiagramLayout;
