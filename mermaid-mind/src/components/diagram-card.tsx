@@ -10,7 +10,7 @@ interface CardProps {
   diagrams: Project[];
 }
 
-export const DiagramCard: React.FC<CardProps> = ({ diagrams }) => {
+const DiagramLayout: React.FC<CardProps> = ({ diagrams }) => {
   const [diagramHtml, setDiagramHtml] = useState<DiagramHtml>({});
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -53,7 +53,7 @@ export const DiagramCard: React.FC<CardProps> = ({ diagrams }) => {
 
       setTimeout(() => {
         setCopiedId(null);
-      }, 3000);
+      }, 5000);
     }
   };
 
@@ -98,7 +98,7 @@ export const DiagramCard: React.FC<CardProps> = ({ diagrams }) => {
               {calculateTimeDifference(diagram.created)}
               {copiedId === diagram._id ? (
                 <div className="flex items-center gap-2 text-sm">
-                  Copied to clipboard
+                  Link Copied
                   <FaCheck color="green" />
                 </div>
               ) : (
@@ -115,3 +115,5 @@ export const DiagramCard: React.FC<CardProps> = ({ diagrams }) => {
     </div>
   );
 };
+
+export default DiagramLayout;

@@ -6,7 +6,7 @@ import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Boxes } from "@/components/ui/background-boxes";
 import { signIn } from "next-auth/react";
 import { Project, SessionProps } from "@/types/types";
-import { DiagramCard } from "../diagram-card";
+import DiagramLayout from "../diagram-card";
 import LoadingComponent from "@/components//loading";
 
 export default function Results({ session }: SessionProps) {
@@ -98,7 +98,7 @@ export default function Results({ session }: SessionProps) {
           {session && loading ? (
             <LoadingComponent />
           ) : newGenerations.length > 0 ? (
-            <DiagramCard diagrams={newGenerations} />
+            <DiagramLayout diagrams={newGenerations} />
           ) : (
             <div className="flex h-32 flex-col items-center justify-center">
               <div className="space-y-4 text-center">

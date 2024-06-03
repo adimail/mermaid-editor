@@ -1,43 +1,71 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { Boxes } from "@/components/ui/background-boxes";
 import { cn } from "@/lib/utils";
 import UserAuth from "@/components/auth";
 import { Project, SessionProps } from "@/types/types";
-import { DiagramCard } from "../diagram-card";
-import LoadingComponent from "@/components//loading";
+import DiagramLayout from "../diagram-card";
+import { useDebounce } from "@/hooks/debounce";
+import { useQuery } from "@tanstack/react-query";
+import { QueryKey } from "@tanstack/react-query";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const fetchProjects = async () => {
+  const response = await fetch("/api/projects");
+  if (!response.ok) {
+    throw new Error("Network response was not ok");
+  }
+  const data = await response.json();
+  return data.diagrams as Project[];
+};
 
 export default function GalleryPage({ session }: SessionProps) {
-  const [newGenerations, setNewGenerations] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [searchQuery, setSearchQuery] = useState("");
+  const queryKey: QueryKey = ["projects"];
 
-  useEffect(() => {
-    fetch("/api/projects")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        if (data && Array.isArray(data.diagrams)) {
-          const fetchedDiagram = data.diagrams.reverse();
-          setNewGenerations(fetchedDiagram);
-        } else {
-          console.error("Expected an array of diagrams but received:", data);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching new generations:", error);
-        setLoading(false);
-      });
-  }, []);
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
+
+  const { data: diagrams = [], isLoading } = useQuery({
+    queryKey: queryKey,
+    queryFn: fetchProjects,
+  }) as { data: Project[]; isLoading: boolean };
+
+  const filteredDiagrams = useMemo(() => {
+    return diagrams.filter((diagram: Project) =>
+      Object.values(diagram).some((value: any) =>
+        value
+          .toString()
+          .toLowerCase()
+          .includes(debouncedSearchQuery.toLowerCase()),
+      ),
+    );
+  }, [diagrams, debouncedSearchQuery]);
+
+  const sortedDiagrams = useMemo(() => {
+    return sortOrder === "newest"
+      ? [...filteredDiagrams].reverse()
+      : filteredDiagrams;
+  }, [filteredDiagrams, sortOrder]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSelectChange = (value: string) => {
+    setSortOrder(value as "newest" | "oldest");
+  };
 
   return (
-    <section className="mb-20 w-full">
+    <section className="mb-20 min-h-screen w-full">
       <div className="">
         <div className="relative flex h-96 w-full cursor-cell flex-col items-center justify-center overflow-hidden bg-slate-900">
           <div className="pointer-events-none absolute inset-0 z-20 h-full w-full bg-slate-900 [mask-image:radial-gradient(transparent,white)]" />
@@ -62,14 +90,37 @@ export default function GalleryPage({ session }: SessionProps) {
         </div>
 
         <div className="container mt-12 w-full items-center justify-center">
-          {loading ? (
-            <LoadingComponent />
+          <div className="mb-4 flex justify-between">
+            <div>
+              <input
+                type="text"
+                onChange={handleSearchChange}
+                placeholder="Search diagrams..."
+                className="w-[300px] rounded-3xl border border-gray-300 px-4 py-2"
+              />
+            </div>
+            <Select onValueChange={handleSelectChange} defaultValue="newest">
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Sort Order" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="oldest">Oldest First</SelectItem>
+                <SelectItem value="newest">Newest First</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          {isLoading ? (
+            <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {Array.from({ length: 12 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))}
+            </div>
           ) : (
             <div>
-              {newGenerations.length > 0 ? (
-                <DiagramCard diagrams={newGenerations} />
+              {sortedDiagrams.length > 0 ? (
+                <DiagramLayout diagrams={sortedDiagrams} />
               ) : (
-                <p>No projects found</p>
+                <p>No projects found for "{searchQuery}"</p>
               )}
             </div>
           )}
@@ -78,3 +129,22 @@ export default function GalleryPage({ session }: SessionProps) {
     </section>
   );
 }
+
+const SkeletonCard: React.FC = () => (
+  <div className="animate-pulse overflow-hidden rounded-3xl border border-gray-300 shadow-md">
+    <div className="h-64 w-full bg-gray-300" />
+    <div className="bg-white p-4">
+      <div className="mb-4 flex items-center gap-3">
+        <div className="h-10 w-10 rounded-full bg-gray-300" />
+        <div className="flex-1 space-y-2">
+          <div className="h-4 w-3/4 rounded bg-gray-300" />
+          <div className="h-3 w-1/2 rounded bg-gray-300" />
+        </div>
+      </div>
+      <div className="space-y-2">
+        <div className="h-4 rounded bg-gray-300" />
+        <div className="h-4 rounded bg-gray-300" />
+      </div>
+    </div>
+  </div>
+);

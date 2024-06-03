@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -14,6 +14,8 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { getJsonData } from "@/store";
+import { parse, render } from "@/utils/mermaid"; // Assuming these are available
+import { parseMermaidString } from "@/utils/utils";
 
 const MAX_TITLE_LENGTH = 50;
 const MAX_DESC_LENGTH = 500;
@@ -34,49 +36,76 @@ export const CloudSaveModal: React.FC<CloudSaveModalProps> = ({
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
 
+  const [isDiagramValid, setIsDiagramValid] = useState(true);
+
   const isFormValid = () => {
     return (
-      projectTitle.trim().length > 4 && projectDescription.trim().length > 0
+      projectTitle.trim().length > 4 &&
+      projectDescription.trim().length > 0 &&
+      isDiagramValid
     );
   };
 
-  const handleSubmit = () => {
-    setLoading(true);
-
-    const projectData = {
-      userID: session?.user.id,
-      userName: session?.user.name,
-      userProfile: session?.user.image,
-      title: projectTitle,
-      description: projectDescription,
-      code: getJsonData().code,
-      config: getJsonData().config,
-      public: publicDiagram,
-      anonymous: stayAnonymous,
-      created: new Date().toLocaleDateString(),
+  useEffect(() => {
+    const validateDiagram = async () => {
+      try {
+        const jsonData = getJsonData();
+        await parse(parseMermaidString(jsonData.code));
+        // JSON.parse(jsonData.config);
+        setIsDiagramValid(true);
+      } catch (error) {
+        console.error("Validation Error: ", error);
+        setIsDiagramValid(false);
+      }
     };
 
-    fetch("/api/projects/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(projectData),
-    })
-      .then((response) => {
-        if (response.ok) {
-          console.log("Project saved successfully");
-          onClose();
-        } else {
-          console.error("Error saving project");
-        }
-      })
-      .catch((error) => {
-        console.error("Error saving project:", error);
-      })
-      .finally(() => {
-        setLoading(false);
+    if (open) {
+      validateDiagram();
+    }
+  }, [open]);
+
+  const handleSubmit = async () => {
+    setLoading(true);
+
+    try {
+      const jsonData = getJsonData();
+      await parse(parseMermaidString(jsonData.code));
+      JSON.parse(jsonData.config);
+      setIsDiagramValid(true);
+
+      const projectData = {
+        userID: session?.user.id,
+        userName: session?.user.name,
+        userProfile: session?.user.image,
+        title: projectTitle,
+        description: projectDescription,
+        code: jsonData.code,
+        config: jsonData.config,
+        public: publicDiagram,
+        anonymous: stayAnonymous,
+        created: new Date().toLocaleDateString(),
+      };
+
+      const response = await fetch("/api/projects/add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
       });
+
+      if (response.ok) {
+        console.log("Project saved successfully");
+        onClose();
+      } else {
+        console.error("Error saving project");
+      }
+    } catch (error) {
+      console.error("Validation or Save Error: ", error);
+      setIsDiagramValid(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -151,6 +180,12 @@ export const CloudSaveModal: React.FC<CloudSaveModalProps> = ({
                     </Tooltip>
                   }
                 />
+              </Box>
+            )}
+            {!isDiagramValid && (
+              <Box sx={{ color: "red", padding: 2 }}>
+                There are syntax errors in your diagram code. Please fix them
+                before saving.
               </Box>
             )}
           </DialogContent>
