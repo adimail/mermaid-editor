@@ -90,17 +90,15 @@ export default function GalleryPage({ session }: SessionProps) {
         </div>
 
         <div className="container mt-12 w-full items-center justify-center">
-          <div className="mb-4 flex justify-between">
-            <div>
-              <input
-                type="text"
-                onChange={handleSearchChange}
-                placeholder="Search diagrams..."
-                className="w-[300px] rounded-3xl border border-gray-300 px-4 py-2"
-              />
-            </div>
+          <div className="mb-4 flex flex-col justify-between md:flex-row">
+            <input
+              type="text"
+              onChange={handleSearchChange}
+              placeholder="Search..."
+              className="mb-2 w-full rounded-3xl border border-gray-300 px-4 py-2 md:w-[300px]"
+            />
             <Select onValueChange={handleSelectChange} defaultValue="newest">
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-full md:w-[200px]">
                 <SelectValue placeholder="Sort Order" />
               </SelectTrigger>
               <SelectContent>
