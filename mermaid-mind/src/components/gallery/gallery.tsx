@@ -120,7 +120,7 @@ export default function GalleryPage({ session }: SessionProps) {
               {sortedDiagrams.length > 0 ? (
                 <DiagramLayout diagrams={sortedDiagrams} />
               ) : (
-                <p>No projects found for "{searchQuery}"</p>
+                <p>No projects found for &quot;{searchQuery}&quot;</p>
               )}
             </div>
           )}
