@@ -23,10 +23,7 @@ export const GoogleGeminiEffect = ({
   return (
     <div className={cn("sticky top-52", className)}>
       <p className="bg-gradient-to-b from-neutral-100 to-neutral-300 bg-clip-text px-3 text-center text-xl font-normal text-transparent md:pb-4 md:text-5xl">
-        {title ?? `Code generation with Images, Files and Github repos`}
-      </p>
-      <p className="mx-auto mt-4 max-w-lg text-center text-xs font-normal text-neutral-400 md:text-xl">
-        {description ?? `will be available soon on Mermaid Mind`}
+        {title ?? `Code generation with Natural language`}
       </p>
 
       <div className="fixed left-5 top-5 flex items-center gap-4">
@@ -45,7 +42,7 @@ export const GoogleGeminiEffect = ({
           }
           className="z-30 mx-auto mt-8 w-fit rounded-full bg-white px-2 py-1 text-xs font-bold text-black md:mt-24 md:px-4  md:py-2 md:text-base "
         >
-          View Demo
+          View Notebook
         </Link>
       </div>
       <svg

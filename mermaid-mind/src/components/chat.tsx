@@ -4,10 +4,10 @@ import { useState, useRef, useEffect } from "react";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { BsFillSendFill } from "react-icons/bs";
-import { FaImage } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/store";
 import { IoCloseSharp } from "react-icons/io5";
+import { FaRegStopCircle } from "react-icons/fa";
 import { api } from "@/trpc/react";
 import { ScrollCards } from "./ui/moving-cards";
 
@@ -20,10 +20,10 @@ interface ChatGuideProps {
 
 export default function ChatBar() {
   const [message, setMessage] = useState("");
-  const [image, setImage] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [response, setResponse] = useState("");
   const [showGuide, setShowGuide] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const setCode = useStore.use.setCode();
 
   const mutation = api.action.getMermaidDiagram.useMutation({
@@ -32,7 +32,7 @@ export default function ChatBar() {
       setMessage("");
       setResponse("Diagram generated successfully");
       setCode(diagram.mermaid);
-      setImage(null);
+      setIsGenerating(false);
 
       setTimeout(() => {
         setResponse("");
@@ -41,6 +41,11 @@ export default function ChatBar() {
     onError: (error) => {
       console.error("Error fetching diagram:", error);
       setResponse("Error generating diagram. Please try again.");
+      setIsGenerating(false);
+
+      setTimeout(() => {
+        setResponse("");
+      }, 2500);
     },
   });
 
@@ -48,10 +53,10 @@ export default function ChatBar() {
     if (message.length > 3) {
       setShowGuide(false);
       setResponse("Generating the mermaid diagram you requested...");
+      setIsGenerating(true);
       mutation.mutate({ query: message });
 
       const userQuery = {
-        image: image ? "Yes" : "No",
         message: message,
         created: new Date().toLocaleDateString(),
       };
@@ -76,6 +81,15 @@ export default function ChatBar() {
     }
   }
 
+  const handleStop = () => {
+    mutation.reset();
+    setIsGenerating(false);
+    setResponse("Generation stopped.");
+    setTimeout(() => {
+      setResponse("");
+    }, 2500);
+  };
+
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
@@ -87,24 +101,9 @@ export default function ChatBar() {
     }
   }, [message]);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const HandleFocus = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     setShowGuide(true);
-  };
-
-  const handleImageRemove = () => {
-    setImage(null);
   };
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -156,7 +155,7 @@ export default function ChatBar() {
             <div className="flex items-center pb-5 text-gray-100">
               <Textarea
                 ref={textareaRef}
-                className="w-full resize-none border-none bg-gray-600 py-3 text-base text-gray-200 ring-0"
+                className="chatbar w-full resize-none border-none bg-gray-600 py-3 text-base text-gray-200 ring-0"
                 placeholder="Ask mermaid mind..."
                 rows={1}
                 onFocus={HandleFocus}
@@ -165,52 +164,36 @@ export default function ChatBar() {
                 onChange={handleMessageChange}
                 style={{ maxHeight: "100px", minHeight: "48px" }}
                 maxLength={MaxLength}
+                disabled={isGenerating}
               />
 
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                id="image-upload"
-                onChange={handleImageUpload}
-              />
-              {!image && (
-                <label
-                  htmlFor="image-upload"
-                  className="cursor-pointer rounded-full p-3 text-gray-500 hover:bg-gray-500 hover:text-gray-900"
+              {isGenerating ? (
+                <Button
+                  className="ml-2 rounded-full px-3 text-gray-500 hover:bg-gray-500 hover:text-gray-900"
+                  size="icon"
+                  variant="ghost"
+                  onClick={handleStop}
                 >
-                  <FaImage size={20} className=" text-slate-300" />
-                </label>
+                  <FaRegStopCircle size={20} className=" text-slate-300" />
+                </Button>
+              ) : (
+                <Button
+                  className="rounded-full px-3 text-gray-500 hover:bg-gray-500 hover:text-gray-900"
+                  size="icon"
+                  variant="ghost"
+                  onClick={SendUserQuery}
+                >
+                  <BsFillSendFill size={20} className=" text-slate-300" />
+                </Button>
               )}
-              {image && (
-                <div className="relative pl-3">
-                  <img
-                    src={image}
-                    alt="Preview"
-                    className="h-10 w-10 rounded-full object-cover"
-                  />
-                  <button
-                    onClick={handleImageRemove}
-                    className="absolute right-0 top-0 -mr-2 -mt-2 rounded-full bg-gray-500 p-1 text-white hover:bg-gray-500"
-                  >
-                    <IoCloseSharp size={12} />
-                  </button>
-                </div>
-              )}
-              <Button
-                className="rounded-full px-3 text-gray-500 hover:bg-gray-500 hover:text-gray-900"
-                size="icon"
-                variant="ghost"
-                onClick={SendUserQuery}
-              >
-                <BsFillSendFill size={20} className=" text-slate-300" />
-              </Button>
             </div>
             <div className="flex justify-between px-3 text-xs text-slate-300 md:text-sm">
               <span>
                 {message.length}/{MaxLength}
               </span>
-              <span>Pie charts | Flow cahrts | ER diagrams</span>
+              <span className=" cursor-pointer hover:text-gray-400">
+                Pie charts | Flow cahrts | ER diagrams
+              </span>
             </div>
           </div>
         </div>

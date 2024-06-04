@@ -60,15 +60,15 @@ export default function Page() {
             height={630}
             width={1200}
           />
-          <p className=" text-justify">
-            Mermaid Mind is an online editor and AI-powered tool for creating
-            Mermaid JS diagrams, including flowcharts, sequence diagrams, Gantt
-            charts, quad charts, class diagrams, pie charts, ER diagrams, and
-            more. Customize the configuration and themes of the Mermaid editor
-            to suit your preferences. Save your diagrams to your account and
-            share them publicly via dynamic URLs. Simply copy the URLs to share
-            your diagrams with anyone, anywhere. Underneath Mermaid Mind uses
-            gemini-1.5-flash multi modal LLM to generate mermaid charts.
+          <p className="text-justify">
+            Mermaid Mind is an online MermaidJS editor and AI-powered tool
+            powered by Gemini and Monaco Editor for creating Mermaid JS
+            diagrams, including flowcharts, sequence diagrams, Gantt charts,
+            quad charts, class diagrams, pie charts, ER diagrams, and more.
+            Customize the configuration and themes of the Mermaid editor to suit
+            your preferences. Save your diagrams to your account and share them
+            publicly via Mermaid Mind URLs. Simply copy the URLs to share your
+            diagrams with anyone, anywhere.
           </p>
           <Separator className="h-0.5 bg-black" />
           <h2 className="mt-6 text-2xl font-semibold">Tech stack used</h2>
@@ -119,6 +119,20 @@ export default function Page() {
               <li key={index}>{feature}</li>
             ))}
           </ul>
+          {/* <Separator className="h-0.5 bg-black" />
+          <h2 className="mt-6 text-2xl font-semibold">
+            Notes on feature engineering
+          </h2>
+          <p className="text-justify">
+            Mermaid mind interacts with 
+            LLM via an API. You can configure a few parameters to get different
+            results for your prompts. Tweaking these settings are important to
+            improve reliability and desirability of responses and it takes a bit
+            of experimentation to figure out the proper settings for your use
+            cases. Below are the common settings you will come across when using
+            different LLM providers:
+          </p> */}
+          <Separator className="h-0.5 bg-black" />
           <h2 className="mt-6 text-2xl font-semibold">About the author</h2>
           <div className="mt-4 flex justify-center space-x-6">
             <Link

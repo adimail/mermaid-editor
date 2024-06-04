@@ -161,18 +161,6 @@ export function WideNavBar({ session }: SessionProps) {
                 src="/mermaid.webp"
                 description="Use natural language to generate mermaid diagrams"
               />
-              <ProductItem
-                title="Markdown"
-                href="/generate"
-                src="/markdown.avif"
-                description="Generate markdown content using natural language"
-              />
-              <ProductItem
-                title="Image to chart"
-                href="/generate"
-                src="/image-upload.avif"
-                description="Upload images and generate the charts from the images"
-              />
             </div>
           </MenuItem>
           <MenuItem setActive={setActive} active={active} item="Editor">
@@ -194,6 +182,11 @@ export function WideNavBar({ session }: SessionProps) {
               </HoveredLink>
               <HoveredLink>
                 <Link href="/about">Site</Link>
+              </HoveredLink>
+              <HoveredLink>
+                <Link href="https://github.com/adimail/mermaid-editor">
+                  Source Code
+                </Link>
               </HoveredLink>
             </div>
           </MenuItem>

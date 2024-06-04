@@ -15,14 +15,18 @@ export default function Footer() {
           </Link>
         </div>
         <div className="flex items-center gap-4 text-sm text-gray-300 dark:text-gray-400">
-          <Link href="/generate" className="hover:underline" prefetch={false}>
-            Gemini
-          </Link>
           <Link href="/about" className="hover:underline" prefetch={false}>
             Blog
           </Link>
           <Link href="/gallery" className="hover:underline" prefetch={false}>
             Creations
+          </Link>
+          <Link
+            href="https://github.com/adimail/mermaid-editor"
+            className="hover:underline"
+            prefetch={false}
+          >
+            GitHub
           </Link>
         </div>
       </div>
