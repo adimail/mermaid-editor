@@ -51,7 +51,7 @@ export default function Results({ session }: SessionProps) {
               href="/"
               className="text-2xl font-extrabold tracking-tight text-white"
             >
-              Mermaid <span className="text-[hsl(280,100%,70%)]">Mind</span>
+              Mermaid <span className="text-[#cc66ff]">Mind</span>
             </Link>
           </div>
           <div className="absolute right-5 top-5 z-50 flex items-center gap-4">

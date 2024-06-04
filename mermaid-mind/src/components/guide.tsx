@@ -88,7 +88,7 @@ export default function Guide() {
         </div>
       </div>
       <section>
-        <div className="b relative mx-auto mb-48 mt-5 flex h-[20rem] w-full max-w-4xl flex-col items-start  justify-start [perspective:1000px] md:h-[40rem]">
+        <div className="b relative mx-auto mb-60 mt-5 flex h-[20rem] w-full max-w-4xl flex-col items-start justify-start  [perspective:1000px] md:mb-24 md:h-[40rem]">
           <Tabs tabs={tabs} />
         </div>
       </section>

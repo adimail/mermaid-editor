@@ -50,10 +50,10 @@ async function runChat(prompt: string): Promise<string> {
     - Include labels on arrows explaining actions and data flow.
     - Create a visually appealing design with clear colors and spacing.
     - The diagrams are for educational purposes.
-    - Create a visually appealing Mermaid flowchart diagram with the following elements:
+    - Create a visually appealing Mermaid flowchart diagram and use only following elements:
       - stadium-shaped nodes ([]).
       - subroutine-shaped nodes {{}}.
-      - curved arrows (===>).
+      - arrows (-->)
 
     Only give me the MermaidJS code while keeping following things in mind:
     - avoid including parenthesis
@@ -131,9 +131,17 @@ async function runChat(prompt: string): Promise<string> {
           STRING name
       }
 
+    <example 5> pie chart
+    pie title Features Usage in Mermaid Mind
+      "Diagram Generation" : 50
+      "Code Editing" : 20
+      "File Download" : 15
+      "User Projects" : 15
+
     Use different colors and clear subgraphs for better organization and readability.
     Add decision nodes if you are drawing graphs to make better graphs.
     Understand the hierarchy in the context and make good diagrams.
+
     Here is the user query, generate a similar mermaid graph for the query:
     `;
 
