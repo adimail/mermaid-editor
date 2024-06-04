@@ -5,28 +5,32 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { BsFillSendFill } from "react-icons/bs";
 import { FaImage } from "react-icons/fa6";
-import { RiCloseCircleLine } from "react-icons/ri";
-import { IoCopySharp } from "react-icons/io5";
 import { motion } from "framer-motion";
-import { IoMdCodeDownload } from "react-icons/io";
 import { useStore } from "@/store";
 import { IoCloseSharp } from "react-icons/io5";
 import { api } from "@/trpc/react";
+
+const MaxLength = 2500;
 
 export default function ChatBar() {
   const [message, setMessage] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [response, setResponse] = useState("");
-  const [showLength, setShowLength] = useState(false);
-  const MaxLength = 2500;
+  const [showGuide, setShowGuide] = useState(false);
+  const setCode = useStore.use.setCode();
 
   const mutation = api.action.getMermaidDiagram.useMutation({
     onSuccess: (diagram) => {
       console.log("Diagram received:", diagram);
       setMessage("");
-      setResponse(diagram.mermaid);
+      setResponse("Diagram generated successfully");
+      setCode(diagram.mermaid);
       setImage(null);
+
+      setTimeout(() => {
+        setResponse("");
+      }, 2500);
     },
     onError: (error) => {
       console.error("Error fetching diagram:", error);
@@ -36,9 +40,33 @@ export default function ChatBar() {
 
   async function SendUserQuery() {
     if (message.length > 3) {
+      setShowGuide(false);
       setResponse("Generating the mermaid diagram you requested...");
       mutation.mutate({ query: message });
-      console.log("Mutation called with message:", message);
+
+      const userQuery = {
+        image: image ? "Yes" : "No",
+        message: message,
+        created: new Date().toLocaleDateString(),
+      };
+
+      try {
+        const response = await fetch("/api/addquery", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userQuery),
+        });
+
+        if (!response.ok) {
+          console.error("Error adding query");
+        } else {
+          console.log("Query added successfully");
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+      }
     }
   }
 
@@ -62,15 +90,11 @@ export default function ChatBar() {
 
   const HandleFocus = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setShowLength(true);
+    setShowGuide(true);
   };
 
   const handleImageRemove = () => {
     setImage(null);
-  };
-
-  const clearResponse = () => {
-    setResponse("");
   };
 
   const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -89,11 +113,12 @@ export default function ChatBar() {
 
   return (
     <>
-      <Response response={response} clearResponse={clearResponse} />
+      <Response response={response} />
       <div className="fixed bottom-0 left-0 right-0 z-40 bg-gradient-to-t from-[#9e9e9e] to-[#ffffff00] pt-8 shadow-lg transition-all duration-300 ease-in-out dark:bg-gray-950 dark:shadow-gray-800">
         <div className="container flex justify-center px-4 py-4">
-          {showLength && (
+          {showGuide && (
             <div className="absolute ml-auto w-full max-w-[700px] -translate-y-7 pl-3 text-start">
+              <ChatGuide visible={true} />
               <span className="text-sm text-black">
                 {message.length}/{MaxLength}
               </span>
@@ -110,7 +135,7 @@ export default function ChatBar() {
                 placeholder="Ask mermaid mind..."
                 rows={1}
                 onFocus={HandleFocus}
-                onBlur={() => setShowLength(false)}
+                onBlur={() => setShowGuide(false)}
                 value={message}
                 onKeyDown={handleKeyDown}
                 onChange={handleMessageChange}
@@ -164,25 +189,8 @@ export default function ChatBar() {
   );
 }
 
-const Response = ({
-  response,
-  clearResponse,
-}: {
-  response: string;
-  clearResponse: () => void;
-}) => {
+const Response = ({ response }: { response: string }) => {
   if (!response) return null;
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(response);
-  };
-
-  const setCode = useStore.use.setCode();
-
-  function UseGeminiCode() {
-    setCode(response);
-    clearResponse();
-  }
 
   return (
     <motion.div
@@ -194,32 +202,48 @@ const Response = ({
     >
       <div className="w-full max-w-[700px] rounded-3xl border bg-[#1976D2] p-2 shadow-lg dark:bg-gray-900">
         <Textarea
-          className="w-full resize-y rounded-t-3xl border-none bg-white p-4 font-code text-xs text-gray-900 ring-0 focus:outline-none focus:ring-0"
-          style={{ resize: "vertical", maxHeight: "200px", height: "100px" }}
+          className="h-5 w-full resize-none rounded-2xl border-none bg-white p-4 font-code text-xs text-gray-900 ring-0 focus:outline-none focus:ring-0"
           value={response}
           readOnly
         />
+      </div>
+    </motion.div>
+  );
+};
 
-        <div className="mt-4 flex items-center justify-end gap-3 text-sm">
-          <button
-            onClick={UseGeminiCode}
-            className="flex items-center gap-2 rounded-full bg-gray-300 p-1 px-2 text-gray-900 hover:bg-gray-400"
+const ChatGuide = ({ visible }: { visible: boolean }) => {
+  if (!visible) return null;
+
+  const chatGuide = [
+    {
+      title: "Be specific about the topic",
+      description:
+        "Provide more details for better charts. Also mention examples if possible",
+    },
+    {
+      title: "Use relevant keywords",
+      description:
+        "Include keywords related to the type of chart and design you want",
+    },
+  ];
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 50 }}
+      transition={{ duration: 0.2 }}
+      className="fixed bottom-[40px] left-0 right-0 z-50 flex justify-center px-4"
+    >
+      <div className="grid w-full grid-cols-1 gap-2 md:grid-cols-2">
+        {chatGuide.map((data, index) => (
+          <div
+            key={index}
+            className="flex cursor-pointer flex-col justify-between rounded-2xl bg-slate-300 px-4 py-2 text-center"
           >
-            Use <IoMdCodeDownload size={20} />
-          </button>
-          <button
-            onClick={copyToClipboard}
-            className="flex items-center gap-2 rounded-full bg-gray-300 p-1 px-2 text-gray-900 hover:bg-gray-400"
-          >
-            Copy <IoCopySharp size={16} />
-          </button>
-          <button
-            onClick={clearResponse}
-            className="flex items-center gap-2 rounded-full bg-gray-300 p-1 px-2 text-gray-900 hover:bg-gray-400"
-          >
-            Close <RiCloseCircleLine size={16} />
-          </button>
-        </div>
+            <h3 className="mb-2 font-bold text-slate-800">{data.title}</h3>
+            <p className="text-sm text-gray-500">{data.description}</p>
+          </div>
+        ))}
       </div>
     </motion.div>
   );

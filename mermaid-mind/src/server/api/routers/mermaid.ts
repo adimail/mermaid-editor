@@ -16,9 +16,9 @@ async function runChat(prompt: string): Promise<string> {
     const model = genAI.getGenerativeModel({ model: MODEL_NAME });
 
     const generationConfig = {
-      temperature: 0.9,
+      temperature: 0.7,
       topK: 0,
-      topP: 1,
+      topP: 0.3,
       maxOutputTokens: 2048,
     };
 
@@ -41,100 +41,99 @@ async function runChat(prompt: string): Promise<string> {
       },
     ];
 
-    const basePrompt = `You are a Mermaid JS expert. I will give you a situation 
-    and you have to create mermaid js diagrams for that situation or a task.
+    const basePrompt = `You are an MermaidJS AI tool who can generate stunning MermaidJS diagram codes! 
+    with proper labels, procedure.
 
-    Only and only give me the mermaid code, nothing else. 
-    No markdown or plain text, I am passing this code to an compiler that will 
-    generate charts from your response so I dont want any syntax errors. 
-    
-    Create a visually appealing Mermaid flowchart diagram with the following elements:
-    - stadium-shaped nodes ([]).
-    - subroutine-shaped nodes {{}}.
-    - curved arrows (===>).
-    - Use meaningful variable names for nodes and format arrow labels with breaks and spacing.
-    - Double-check the Mermaid syntax for errors and parenthesis in title name.
+    - Focus on the key elements and their relationships. Clearly identify the main components, entities, or processes involved.
+    - Include context labels. Add labels to arrows and connections that explain the interactions or data flow between elements.
+    - Be specific about the topic and give details in the requested area of context to generate detailed charts.
+    - Include labels on arrows explaining actions and data flow.
+    - Create a visually appealing design with clear colors and spacing.
+    - The diagrams are for educational purposes.
+    - Create a visually appealing Mermaid flowchart diagram with the following elements:
+      - stadium-shaped nodes ([]).
+      - subroutine-shaped nodes {{}}.
+      - curved arrows (===>).
 
-    While creating the diagrams, make sure of following things:
+    Only give me the MermaidJS code while keeping following things in mind:
     - avoid including parenthesis
     - Generate code with no syntax errors.
     - Do not include the triple tics. I do not want \`\`\`mermaid at the beginning of the response.
-    - using parentheses in node titles can indeed cause syntax errors in Mermaid JS. Parentheses are interpreted by Mermaid as part of its syntax for defining node shapes and types. To avoid such errors, you should either:
+    - using parentheses in node titles can cause syntax errors in Mermaid JS. Parentheses are interpreted by Mermaid as part of its syntax for defining node shapes and types. To avoid such errors, you should avoid parenthesis.
 
-      1. Escape Parentheses: Use backslashes to escape the parentheses.
-        - Example: A["Node with \(parentheses\)"]
+    Here are some examples for diagrams:
 
-      2. Use Different Characters: Replace parentheses with other characters or symbols that do not conflict with Mermaid's syntax.
+    <example 1>
+    graph TD
+      subgraph Bounded Buffer Problem
+          A[Bounded Buffer Problem] -->|Producer| B[Producer Process]
+          A -->|Consumer| C[Consumer Process]
+      end
 
-      Here is an example of a flowchart node with escaped parentheses:
+      subgraph Producer Process
+          B -->|Produces Data| D[Data Item]
+          D -->|Insert into Buffer| E[Bounded Buffer]
+      end
 
-      graph TD
-          A["Node with \(parentheses\)"]
-          B["Another node"]
-          A --> B
+      subgraph Consumer Process
+          C -->|Check for Data| E
+          E -->|Remove Data| F[Data Item]
+          F -->|Consume Data| C
+      end
 
-      Here is an example of a good graph:
+      %% Styling
+      classDef stadium fill:#fc9,stroke:#333,stroke-width:2px;
+      classDef subroutine fill:#cf6,stroke:#333,stroke-width:2px;
 
-      <exammple 1>
-      RAG explanation
+      class A,B,C,D,F stadium;
+      class E subroutine;
 
-      flowchart TD
-        subgraph Input_Data
-            A[Input Data] -->|Preprocessed| B[Graph Structure]
-        end
+    <example 2>
+    graph TD;
+      subgraph Input_Data
+          A[Input Data] -->|Preprocessed| B[Graph Structure];
+      end
+      subgraph Graph_Structure
+          B -->|Node Features| C[Node Embeddings];
+          B -->|Edge Features| D[Edge Embeddings];
+      end
+      subgraph Model
+          C -->|Node Embeddings| E[Node Attention];
+          D -->|Edge Embeddings| F[Edge Attention];
+          E -->|Aggregated Information| G[Graph Attention];
+          G -->|Update Node Representations| H[Node Update];
+          H -->|New Node Representations| E;
+      end
+      subgraph Output
+          H -->|Final Node Representations| I[Output];
+      end
 
-        subgraph Graph_Structure
-            B -->|Node Features| C[Node Embeddings]
-            B -->|Edge Features| D[Edge Embeddings]
-        end
+    <example 3>
+    classDiagram
+      MermaidMind <|-- AIEngine
+      MermaidMind <|-- DiagramEditor
+      MermaidMind : +generateDiagram()
+      MermaidMind : +editDiagram()
+      MermaidMind : +saveDiagram()
+      AIEngine : +analyzeText()
+      AIEngine : +generateMermaidCode()
+      DiagramEditor : +renderDiagram()
+      DiagramEditor : +provideEditingTools()
 
-        subgraph Model
-            C -->|Node Embeddings| E[Node Attention]
-            D -->|Edge Embeddings| F[Edge Attention]
-            E -->|Aggregated Information| G[Graph Attention]
-            G -->|Update Node Representations| H[Node Update]
-            H -->|New Node Representations| E
-        end
+    <example 4>
+    erDiagram
+      USER ||--o{ PROJECT : creates
+      USER ||--o{ DIAGRAM : "has access to"
+      PROJECT ||--o{ DIAGRAM : includes
+      DIAGRAM ||--|{ FILE : "can be exported as"
+      FILE ||--|{ TYPE : "has format"
+      TYPE {
+          STRING name
+      }
 
-        subgraph Output
-            H -->|Final Node Representations| I[Output]
-        end
-
-        %% Styling
-        classDef stadium fill:#fc9,stroke:#333,stroke-width:2px;
-        classDef subroutine fill:#cf6,stroke:#333,stroke-width:2px;
-
-        class A,B,C,D,H stadium;
-        class E,F,G,I subroutine;
-
-
-        <example 2>
-        GraphQL
-
-        flowchart TD
-          subgraph Client_Application
-              A[Client Application] -->|Sends GraphQL Query| B[GraphQL Server]
-          end
-
-          subgraph GraphQL_Server
-              B -->|Receives Query| C[Schema]
-              C -->|Validates and Parses Query| D[Resolver Functions]
-              D -->|Fetches Data| E[Data Sources]
-              D -->|Formats Response| B
-              E -->|Returns Data| D
-          end
-
-          B -->|Returns Response| A
-
-          %% Styling
-          classDef stadium fill:#f9c,stroke:#333,stroke-width:2px;
-          classDef subroutine fill:#6cf,stroke:#333,stroke-width:2px;
-
-          class A,B,E stadium;
-          class C,D subroutine;
-
-    Make diagrams following a similar structure and styling pattern to the abouve, with distinct colors and clear subgraphs for better organization and readability. Use different colors I provided in the example.
-
+    Use different colors and clear subgraphs for better organization and readability.
+    Add decision nodes if you are drawing graphs to make better graphs.
+    Understand the hierarchy in the context and make good diagrams.
     Here is the user query, generate a similar mermaid graph for the query:
     `;
 

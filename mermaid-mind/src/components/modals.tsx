@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { getJsonData } from "@/store";
-import { parse, render } from "@/utils/mermaid"; // Assuming these are available
+import { parse } from "@/utils/mermaid";
 import { parseMermaidString } from "@/utils/utils";
 
 const MAX_TITLE_LENGTH = 50;
