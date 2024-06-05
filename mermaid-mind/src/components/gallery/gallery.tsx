@@ -89,7 +89,12 @@ export default function GalleryPage({ session }: SessionProps) {
           </p>
         </div>
 
-        <div className="container mt-12 w-full items-center justify-center">
+        <div className="container mt-5 w-full items-center justify-center">
+          {sortedDiagrams && (
+            <p className="py-3 text-sm">
+              Fetched {sortedDiagrams.length} diagrams
+            </p>
+          )}
           <div className="mb-4 flex flex-col justify-between md:flex-row">
             <input
               type="text"

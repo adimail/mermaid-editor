@@ -30,7 +30,7 @@ export async function GET(
 
     const diagram = await collection
       .find({ _id: objectId })
-      .limit(50)
+      .limit(100)
       .toArray();
 
     return NextResponse.json({ diagram }, { status: 200 });
