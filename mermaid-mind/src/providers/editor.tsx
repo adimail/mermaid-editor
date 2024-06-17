@@ -4,9 +4,9 @@ import React, {
   createContext,
   useState,
   useContext,
-  ReactNode,
-  Dispatch,
-  SetStateAction,
+  type ReactNode,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
 
 interface EditorTypeContextType {

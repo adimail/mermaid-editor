@@ -112,14 +112,14 @@ const View = () => {
     if (typeof window !== "undefined") {
       renderDiagram(validateCode, validateConfig);
     }
-  }, [validateCode, validateConfig, panZoom]);
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined" && (autoSync || updateDiagram)) {
       setValidateCodeAndConfig(debounceCode, debounceConfig);
       if (updateDiagram) setUpdateDiagram(false);
     }
-  }, [debounceCode, debounceConfig, autoSync, updateDiagram]);
+  });
 
   return (
     <Box ref={view} component="div" sx={{ height: "100%" }}>

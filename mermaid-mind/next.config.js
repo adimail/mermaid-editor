@@ -46,7 +46,7 @@ const config = {
       },
       {
         protocol: "https",
-        hostname: "webassembly-compressor-demo.s3.ap-south-1.amazonaws.com",
+        hostname: "raw.githubusercontent.com",
       },
     ],
   },

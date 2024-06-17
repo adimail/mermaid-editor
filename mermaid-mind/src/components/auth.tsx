@@ -20,7 +20,7 @@ import { FaUser, FaFolderOpen } from "react-icons/fa";
 import { RxExit } from "react-icons/rx";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RiMenuFill } from "react-icons/ri";
-import { Session } from "next-auth";
+import { type Session } from "next-auth";
 
 interface SessionProps {
   session: Session | null;

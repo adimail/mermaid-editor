@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Project, DiagramHtml } from "@/types/types";
+import type { Project, DiagramHtml } from "@/types/types";
 import { calculateTimeDifference, parseMermaidString } from "@/utils/utils";
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import Link from "next/link";

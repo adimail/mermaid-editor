@@ -1,12 +1,11 @@
 import DiagramEditor from "@/components/gallery/diagram";
-import { getServerAuthSession } from "@/server/auth";
 import { NavBar } from "@/components/nav/nav";
 import Footer from "@/components/footer";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mermaid-mind.vercel.app/"),
-  title: "Share mermaid diagrams anyone, anywhere",
+  title: "Share mermaid diagrams with anyone, anywhere",
   description:
     "Diagrams made easy to share! Instantly share your creations with anyone, no logins required to view diagrams.",
   openGraph: {
@@ -19,12 +18,10 @@ export default async function Page({
 }: {
   params: { diagramID: string };
 }) {
-  const session = await getServerAuthSession();
-
   return (
     <div>
       <NavBar />
-      <DiagramEditor diagramID={params.diagramID} session={session} />
+      <DiagramEditor diagramID={params.diagramID} />
       <Footer />
     </div>
   );

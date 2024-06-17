@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 import { env } from "@/env";
 
@@ -28,10 +28,7 @@ export async function GET(
 
     const objectId = new ObjectId(diagramID);
 
-    const diagram = await collection
-      .find({ _id: objectId })
-      .limit(100)
-      .toArray();
+    const diagram = await collection.find({ _id: objectId }).toArray();
 
     return NextResponse.json({ diagram }, { status: 200 });
   } catch (error) {

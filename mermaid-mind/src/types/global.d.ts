@@ -1,4 +1,4 @@
-import { MongoClient } from "mongodb";
+import { type MongoClient } from "mongodb";
 
 declare global {
   namespace NodeJS {

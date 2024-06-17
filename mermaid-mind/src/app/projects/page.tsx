@@ -1,7 +1,7 @@
 import { getServerAuthSession } from "@/server/auth";
 import Results from "@/components/gallery/projects";
 import Footer from "@/components/footer";
-import { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://mermaid-mind.vercel.app/"),

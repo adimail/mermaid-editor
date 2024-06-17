@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { MongoClient, ServerApiVersion } from "mongodb";
 import { env } from "@/env";
 

@@ -5,7 +5,6 @@ import svgPanZoom from "svg-pan-zoom";
 import { useStore } from "@/store";
 import { parseMermaidString } from "@/utils/utils";
 
-import dynamic from "next/dynamic";
 import { Box, IconButton } from "@mui/material";
 import { IoMdMove } from "react-icons/io";
 
@@ -118,14 +117,14 @@ const CodeView: React.FC<CodeViewProps> = ({ code }) => {
     if (typeof window !== "undefined") {
       renderDiagram(validateCode, validateConfig);
     }
-  }, [validateCode, validateConfig, panZoom]);
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined" && (autoSync || updateDiagram)) {
       setValidateCodeAndConfig(debounceCode, debounceConfig);
       if (updateDiagram) setUpdateDiagram(false);
     }
-  }, [debounceCode, debounceConfig, autoSync, updateDiagram]);
+  });
 
   return (
     <>

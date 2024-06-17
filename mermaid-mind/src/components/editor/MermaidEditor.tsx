@@ -1,4 +1,7 @@
-import MonacoEditor, { OnChange, OnMount } from "@monaco-editor/react";
+import MonacoEditor, {
+  type OnChange,
+  type OnMount,
+} from "@monaco-editor/react";
 import initEditor from "monaco-mermaid";
 import { useStore } from "@/store";
 

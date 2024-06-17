@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import Image from "next/image";
 
 export default function Creations() {
   const setCode = useStore.use.setCode();
@@ -86,7 +87,9 @@ export default function Creations() {
                   exit={{ opacity: 0, y: 40 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <img
+                  <Image
+                    height={100}
+                    width={100}
                     alt="Product Image"
                     className="aspect-[4/3] w-full object-cover"
                     src={product.imageSrc}

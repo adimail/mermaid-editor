@@ -21,7 +21,7 @@ export async function GET() {
     const database = client.db(mongodb_database);
     const collection = database.collection(mongodb_collection);
 
-    const diagrams = await collection.find().limit(50).toArray();
+    const diagrams = await collection.find().toArray();
 
     return NextResponse.json({ diagrams }, { status: 200 });
   } catch (error) {

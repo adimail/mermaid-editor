@@ -1,4 +1,4 @@
-import mermaid, { MermaidConfig } from "mermaid";
+import mermaid, { type MermaidConfig } from "mermaid";
 
 export const render = async (
   config: MermaidConfig,

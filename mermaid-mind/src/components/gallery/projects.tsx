@@ -5,7 +5,7 @@ import Link from "next/link";
 import { AvatarImage, AvatarFallback, Avatar } from "@/components/ui/avatar";
 import { Boxes } from "@/components/ui/background-boxes";
 import { signIn } from "next-auth/react";
-import { Project, SessionProps } from "@/types/types";
+import type { Project, SessionProps } from "@/types/types";
 import DiagramLayout, { SkeletonCard } from "../diagram-card";
 
 export default function Results({ session }: SessionProps) {

@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import GoogleGeminiEffectDemo from "@/components/gallery/generate";
 
 export const metadata: Metadata = {

@@ -5,11 +5,11 @@ import Link from "next/link";
 import { Boxes } from "@/components/ui/background-boxes";
 import { cn } from "@/lib/utils";
 import UserAuth from "@/components/auth";
-import { Project, SessionProps } from "@/types/types";
+import type { Project, SessionProps } from "@/types/types";
 import DiagramLayout, { SkeletonCard } from "../diagram-card";
 import { useDebounce } from "@/hooks/debounce";
 import { useQuery } from "@tanstack/react-query";
-import { QueryKey } from "@tanstack/react-query";
+import type { QueryKey } from "@tanstack/react-query";
 import {
   Select,
   SelectContent,
@@ -90,10 +90,14 @@ export default function GalleryPage({ session }: SessionProps) {
         </div>
 
         <div className="container mt-5 w-full items-center justify-center">
-          {sortedDiagrams && (
-            <p className="py-3 text-sm">
-              Fetched {sortedDiagrams.length} diagrams
-            </p>
+          {!isLoading ? (
+            sortedDiagrams && (
+              <p className="py-3 text-sm">
+                Fetched {sortedDiagrams.length} diagrams
+              </p>
+            )
+          ) : (
+            <p>Loading diagrams...</p>
           )}
           <div className="mb-4 flex flex-col justify-between md:flex-row">
             <input

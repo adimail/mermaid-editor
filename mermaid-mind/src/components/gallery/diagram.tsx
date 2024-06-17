@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Project } from "@/types/types";
+import type { Project } from "@/types/types";
 import CodeView from "./view";
 import dynamic from "next/dynamic";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -13,10 +13,9 @@ import { FaUser } from "react-icons/fa";
 import { calculateTimeDifference, parseMermaidString } from "@/utils/utils";
 import { MdOutlineDateRange } from "react-icons/md";
 import { FaRegCopy, FaCheck } from "react-icons/fa6";
-import { Session } from "next-auth";
 import { FaExclamationCircle } from "react-icons/fa";
 import LoadingComponent from "@/components//loading";
-import MonacoEditor, { OnMount } from "@monaco-editor/react";
+import MonacoEditor, { type OnMount } from "@monaco-editor/react";
 import initEditor from "monaco-mermaid";
 import { MdOutlineFileDownload } from "react-icons/md";
 
@@ -26,10 +25,9 @@ const FullScreen = dynamic(() => import("@/components/editor/FullScreen"), {
 
 interface Props {
   diagramID: string;
-  session: Session | null;
 }
 
-const DiagramEditor: React.FC<Props> = ({ diagramID, session }) => {
+const DiagramEditor: React.FC<Props> = ({ diagramID }) => {
   const [diagram, setDiagram] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);

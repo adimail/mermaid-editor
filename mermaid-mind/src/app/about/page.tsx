@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import { NavBar } from "@/components/nav/nav";
 import Footer from "@/components/footer";
 import { Separator } from "@/components/ui/separator";
@@ -119,19 +119,14 @@ export default function Page() {
               <li key={index}>{feature}</li>
             ))}
           </ul>
-          {/* <Separator className="h-0.5 bg-black" />
-          <h2 className="mt-6 text-2xl font-semibold">
-            Notes on feature engineering
-          </h2>
-          <p className="text-justify">
-            Mermaid mind interacts with 
-            LLM via an API. You can configure a few parameters to get different
-            results for your prompts. Tweaking these settings are important to
-            improve reliability and desirability of responses and it takes a bit
-            of experimentation to figure out the proper settings for your use
-            cases. Below are the common settings you will come across when using
-            different LLM providers:
-          </p> */}
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/RNT67PuKcgY?si=Ek0tK6DzuV1RU0S8"
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            className="w-full"
+          ></iframe>
           <Separator className="h-0.5 bg-black" />
           <h2 className="mt-6 text-2xl font-semibold">About the author</h2>
           <div className="mt-4 flex justify-center space-x-6">

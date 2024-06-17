@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { cn } from "@/utils/cn";
 import Link from "next/link";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import UserAuth, { SheetComponent } from "../auth";

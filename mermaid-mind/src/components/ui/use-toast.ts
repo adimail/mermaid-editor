@@ -2,7 +2,6 @@
 
 // Inspired by react-hot-toast library
 import * as React from "react";
-import Link from "next/link";
 
 import type { ToastActionElement, ToastProps } from "@/components/ui/toast";
 
