@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import type { Metadata } from "next";
 import { TRPCReactProvider } from "@/trpc/react";
 import AppContextProvider from "@/providers/providers";
+import Script from "next/script";
 
 const siteConfig = {
   name: "Mermaid Mind",
@@ -48,6 +49,20 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Script
+        strategy="afterInteractive"
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-WXT0QV35H1"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-WXT0QV35H1');
+          `}
+      </Script>
       <body>
         <AppContextProvider>
           <TRPCReactProvider>{children}</TRPCReactProvider>
